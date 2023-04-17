@@ -1,4 +1,8 @@
 CREATE DATABASE IF NOT EXISTS animalShelter;
+
+grant all privileges on animalShelter.* to 'webapp'@'%';
+flush privileges;
+
 USE animalShelter;
 
 DROP TABLE IF EXISTS CaretakerVolunteer;
@@ -89,7 +93,7 @@ CREATE TABLE IF NOT EXISTS Visitor (
     phone_number INTEGER NOT NULL,
     visit_time DATETIME NOT NULL,
     animal_interest VARCHAR(50) NOT NULL,
-    PRIMARY KEY(visit_time)
+    PRIMARY KEY(visit_time, last_name)
 );
 
 CREATE TABLE IF NOT EXISTS Rec_Vis(
