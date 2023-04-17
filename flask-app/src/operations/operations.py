@@ -3,11 +3,10 @@ import json
 from src import db
 
 
-inventory = Blueprint('inventory', __name__)
+operations = Blueprint('operations', __name__)
 
-
-# Get all Return identifying information and quantity of all items
-@inventory.route('/inventory', methods=['GET'])
+# Get all identifying information and quantity of all items
+@operations.route('/inventory', methods=['GET'])
 def get_items():
     cursor = db.get_db().cursor()
     cursor.execute(
@@ -23,7 +22,7 @@ def get_items():
     return jsonify(json_data)
 
 # Add a new item to the inventory
-@inventory.route('/inventory', methods=['POST'])
+@operations.route('/inventory', methods=['POST'])
 def add_item():
     # access json data from request object
     the_data = request.json
@@ -49,7 +48,7 @@ def add_item():
     return "success"
 
 # Return the quantity of a specific item
-@inventory.route('/inventory/<id>', methods=['GET'])
+@operations.route('/inventory/<id>', methods=['GET'])
 def get_item(id):
     cursor = db.get_db().cursor()
     cursor.execute(
@@ -65,9 +64,8 @@ def get_item(id):
     
     return jsonify(json_data)
 
-# CHECK IF WORKS
 # Mark an item as out of stock
-@inventory.route('/inventory/<id>', methods=['DELETE'])
+@operations.route('/inventory/<id>', methods=['DELETE'])
 def delete_item(id):
     cursor = db.get_db().cursor()
     cursor.execute(
@@ -76,4 +74,21 @@ def delete_item(id):
         )
     db.get_db().commit()
     
+    return "success"
+
+# update an item's quantity
+@operations.route('/inventory/<id>', methods=['PUT'])
+def update_quantity():
+    the_data = request.json
+
+    quantity = the_data['quantity']
+	
+    the_query = "update AnimalInventory "
+    the_query += "set quantity = '" + quantity + "' "
+    the_query += "where id = {0}".format(id)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(the_query)
+    db.get_db().commit()
+
     return "success"
