@@ -26,7 +26,6 @@ def add_item():
     # access json data from request object
     the_data = request.json
     
-    price = the_data['price']
     brand = the_data['brand']
     quantity = the_data['quantity']
     item_cat = the_data['item_category']
@@ -35,8 +34,8 @@ def add_item():
     item_id = the_data['item_id']
     
     # construct insert statement
-    the_query = "insert into AnimalInventory (price, brand, quantity, item_category, date_received, operation_id, item_id) "
-    the_query += "values (" + str(price) + ", '" + brand + "', " + str(quantity) + ", '" + item_cat + "', '" + date_rec + "', " + str(op_id) + ", " + str(item_id) + ")"
+    the_query = "insert into AnimalInventory (brand, quantity, item_category, date_received, operation_id, item_id) "
+    the_query += "values (" + brand + "', " + str(quantity) + ", '" + item_cat + "', '" + date_rec + "', " + str(op_id) + ", " + str(item_id) + ")"
     # execute query
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
