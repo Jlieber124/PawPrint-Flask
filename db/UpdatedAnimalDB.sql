@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS AnimalInventory (
     brand VARCHAR(50) NOT NULL,
     quantity INTEGER NOT NULL,
     item_category VARCHAR(50) NOT NULL,
-    date_received DATETIME NOT NULL,
+    date_received DATE NOT NULL,
     operation_id INTEGER UNIQUE NOT NULL,
     item_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY(item_id),
@@ -92,14 +92,14 @@ CREATE TABLE IF NOT EXISTS Visitor (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
-    visit_time DATETIME NOT NULL,
+    visit_time TIME NOT NULL,
     animal_interest VARCHAR(50) NOT NULL,
     PRIMARY KEY(visit_time, last_name)
 );
 
 CREATE TABLE IF NOT EXISTS Rec_Vis(
     employee_id INTEGER UNIQUE NOT NULL,
-    visit_time DATETIME NOT NULL,
+    visit_time TIME NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     PRIMARY KEY (employee_id, visit_time, last_name),
     CONSTRAINT empID
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS veterinaryNurse (
 CREATE TABLE IF NOT EXISTS dog (
     location INTEGER NOT NULL,
     walk_duration INTEGER NOT NULL,
-    group_play_time DATETIME NOT NULL,
+    group_play_time TIME NOT NULL,
     need_food BOOLEAN NOT NULL,
     need_clean BOOLEAN NOT NULL,
     need_walk BOOLEAN NOT NULL,
