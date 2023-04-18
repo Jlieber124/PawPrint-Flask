@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS volunteerCoordinator(
     work_email VARCHAR(50) UNIQUE NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    phone_number INTEGER UNIQUE NOT NULL,
+    phone_number VARCHAR(15) UNIQUE NOT NULL,
     number_volunteers INTEGER NOT NULL,
     PRIMARY KEY (coordinator_id)
 );
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS receptionist (
     last_name VARCHAR(50) NOT NULL,
     language VARCHAR(50) NOT NULL,
     work_email VARCHAR(50) UNIQUE NOT NULL,
-    phone_number INTEGER UNIQUE NOT NULL,
+    phone_number VARCHAR(15) UNIQUE NOT NULL,
     coordinator_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY (employee_id),
     CONSTRAINT coordID
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS CaretakerVolunteer
     caretaker_id   INTEGER     UNIQUE NOT NULL,
     first_name    VARCHAR(50) NOT NULL,
     last_name     VARCHAR(50) NOT NULL,
-    phone_number INTEGER UNIQUE NOT NULL,
+    phone_number VARCHAR(15) UNIQUE NOT NULL,
     animal_speciality VARCHAR(50) NOT NULl,
     coordinator_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY (caretaker_id),
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS OperationVolunteer
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     work_email VARCHAR(50) UNIQUE NOT NULL,
-    phone_number VARCHAR(50) UNIQUE NOT NULL,
+    phone_number VARCHAR(15) UNIQUE NOT NULL,
     coordinator_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY (operation_id),
     CONSTRAINT opID
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS Donor (
     donation_id INTEGER UNIQUE NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    phone_number INTEGER NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
     donation_amount FLOAT(2) NOT NULL,
     operation_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY(donation_id),
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS Donor (
 CREATE TABLE IF NOT EXISTS Visitor (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    phone_number INTEGER NOT NULL,
+    phone_number VAR(15) NOT NULL,
     visit_time DATETIME NOT NULL,
     animal_interest VARCHAR(50) NOT NULL,
     PRIMARY KEY(visit_time, last_name)
@@ -104,7 +104,9 @@ CREATE TABLE IF NOT EXISTS Rec_Vis(
     CONSTRAINT empID
         FOREIGN KEY (employee_id) REFERENCES receptionist (employee_id),
     CONSTRAINT vLlN
-        FOREIGN KEY (visit_time) REFERENCES Visitor (visit_time)
+        FOREIGN KEY (visit_time) REFERENCES Visitor (visit_time),
+    CONSTRAINT vLN
+        FOREIGN KEY (last_name)) REFERENCES Visitor (last_name)
 );
 
 CREATE TABLE IF NOT EXISTS vetClinician (
@@ -113,7 +115,7 @@ CREATE TABLE IF NOT EXISTS vetClinician (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     work_email VARCHAR(50) UNIQUE NOT NULL,
-    phone_number INTEGER UNIQUE NOT NULL,
+    phone_number VARCHAT(15) UNIQUE NOT NULL,
     degree VARCHAR(50) NOT NULL,
     PRIMARY KEY(vetID)
 );
@@ -121,7 +123,7 @@ CREATE TABLE IF NOT EXISTS vetClinician (
 
 CREATE TABLE IF NOT EXISTS veterinaryNurse (
     nurseID INTEGER UNIQUE NOT NULL,
-    phone_number INTEGER UNIQUE NOT NULL,
+    phone_number VARCHAR(15) UNIQUE NOT NULL,
     work_email VARCHAR(50) UNIQUE NOT NULL,
     qualification VARCHAR(50) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -148,7 +150,7 @@ CREATE TABLE IF NOT EXISTS dog (
     weight INTEGER NOT NULL,
     housebroken BOOLEAN NOT NULL,
     temperament BOOLEAN NOT NULL,
-    dietary_restriction VARCHAR(50) NOT NULL,
+    dietary_restriction VARCHAR(50),
     sex VARCHAR(50) NOT NULL,
     caretaker_id INTEGER UNIQUE NOT NULL,
     vet_id INTEGER UNIQUE NOT NULL,
@@ -170,7 +172,7 @@ CREATE TABLE IF NOT EXISTS cat (
     sex VARCHAR(50) NOT NULL,
     age VARCHAR(50) NOT NULL,
     neutered BOOLEAN NOT NULL,
-    dietary_restrictions VARCHAR(50) NOT NULL,
+    dietary_restrictions VARCHAR(50),
     weight INTEGER NOT NULL,
     caretaker_id INTEGER UNIQUE NOT NULL,
     vet_id INTEGER UNIQUE NOT NULL,
@@ -186,7 +188,7 @@ CREATE TABLE IF NOT EXISTS supplier (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     service_rep_email VARCHAR(50) UNIQUE NOT NULL,
-    service_rep_phone_number INTEGER UNIQUE NOT NULL,
+    service_rep_phone_number VARCHAR(15) UNIQUE NOT NULL,
     opertation_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY(supplierID),
     CONSTRAINT opIDSuplier
