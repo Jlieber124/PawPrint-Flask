@@ -1,4 +1,4 @@
-
+DROP DATABASE animalShelter;
 CREATE DATABASE IF NOT EXISTS animalShelter;
 
 grant all privileges on animalShelter.* to 'webapp'@'%';
@@ -13,10 +13,10 @@ DROP TABLE IF EXISTS Visitor;
 
 CREATE TABLE IF NOT EXISTS volunteerCoordinator(
     coordinator_id INTEGER UNIQUE NOT NULL,
-    work_email VARCHAR(50) UNIQUE NOT NULL,
+    work_email VARCHAR(50) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    phone_number VARCHAR(15) UNIQUE NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
     number_volunteers INTEGER NOT NULL,
     PRIMARY KEY (coordinator_id)
 );
@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS receptionist (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     language VARCHAR(50) NOT NULL,
-    work_email VARCHAR(50) UNIQUE NOT NULL,
-    phone_number VARCHAR(15) UNIQUE NOT NULL,
+    work_email VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
     coordinator_id INTEGER NOT NULL,
     employee_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY (employee_id),
@@ -38,12 +38,12 @@ CREATE TABLE IF NOT EXISTS receptionist (
 
 CREATE TABLE IF NOT EXISTS CaretakerVolunteer
 (
-    work_email    VARCHAR(50) UNIQUE,
+    work_email    VARCHAR(50) NOT NULL,
     experience     INTEGER     NOT NULL,
     caretaker_id   INTEGER     UNIQUE NOT NULL,
     first_name    VARCHAR(50) NOT NULL,
     last_name     VARCHAR(50) NOT NULL,
-    phone_number VARCHAR(15) UNIQUE NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
     animal_specialty VARCHAR(50) NOT NULl,
     coordinator_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY (caretaker_id),
@@ -56,9 +56,9 @@ CREATE TABLE IF NOT EXISTS OperationVolunteer
     operation_id INTEGER UNIQUE NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    work_email VARCHAR(50) UNIQUE NOT NULL,
-    phone_number VARCHAR(15) UNIQUE NOT NULL,
-    coordinator_id INTEGER UNIQUE NOT NULL,
+    work_email VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
+    coordinator_id INTEGER NOT NULL,
     PRIMARY KEY (operation_id),
     CONSTRAINT opID
         FOREIGN KEY (coordinator_id) REFERENCES volunteerCoordinator(coordinator_id)
@@ -106,9 +106,7 @@ CREATE TABLE IF NOT EXISTS Rec_Vis(
     CONSTRAINT empID
         FOREIGN KEY (employee_id) REFERENCES receptionist (employee_id),
     CONSTRAINT vLlN
-        FOREIGN KEY (visit_time) REFERENCES Visitor (visit_time),
-    CONSTRAINT vLN
-        FOREIGN KEY (last_name) REFERENCES Visitor (last_name)
+        FOREIGN KEY (visit_time, last_name) REFERENCES Visitor (visit_time, last_name)
 );
 
 CREATE TABLE IF NOT EXISTS vetClinician (
@@ -116,8 +114,8 @@ CREATE TABLE IF NOT EXISTS vetClinician (
     field_concentration VARCHAR(50) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    work_email VARCHAR(50) UNIQUE NOT NULL,
-    phone_number VARCHAR(15) UNIQUE NOT NULL,
+    work_email VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
     degree VARCHAR(50) NOT NULL,
     PRIMARY KEY(vetID)
 );
@@ -125,8 +123,8 @@ CREATE TABLE IF NOT EXISTS vetClinician (
 
 CREATE TABLE IF NOT EXISTS veterinaryNurse (
     nurseID INTEGER UNIQUE NOT NULL,
-    phone_number VARCHAR(15) UNIQUE NOT NULL,
-    work_email VARCHAR(50) UNIQUE NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
+    work_email VARCHAR(50) NOT NULL,
     qualification VARCHAR(50) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
@@ -137,14 +135,12 @@ CREATE TABLE IF NOT EXISTS veterinaryNurse (
 );
 
 CREATE TABLE IF NOT EXISTS dog (
-    dog_id INTEGER UNIQUE NOT NULL,
-    location INTEGER UNIQUE NOT NULL,
+    location INTEGER NOT NULL,
     walk_duration INTEGER NOT NULL,
     group_play_time DATETIME NOT NULL,
     need_food BOOLEAN NOT NULL,
     need_clean BOOLEAN NOT NULL,
     need_walk BOOLEAN NOT NULL,
-    temperament BOOLEAN NOT NULL,
     name_dog VARCHAR(50) NOT NULL,
     age INTEGER NOT NULL,
     chip_status BOOLEAN NOT NULL,
@@ -156,6 +152,7 @@ CREATE TABLE IF NOT EXISTS dog (
     sex VARCHAR(50) NOT NULL,
     caretaker_id INTEGER UNIQUE NOT NULL,
     vet_id INTEGER UNIQUE NOT NULL,
+    dog_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY(dog_id),
     CONSTRAINT caretakeID
         FOREIGN KEY (caretaker_id) REFERENCES CaretakerVolunteer(caretaker_id),
@@ -829,22 +826,22 @@ INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ppinnockea@blinklist.com',10,'Philomena','Pinnocke','967-488-4410','cat',44,11);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('bcappb@squidoo.com',50,'Bette','Capp','671-857-8371','dog',50,12);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ialdridgec@blinklist.com',9,'Idaline','Aldridge','138-344-8039','dog',15,13);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('dpaudind@nytimes.com',37,'Deane','Paudin','719-842-6562','cat',32,14);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('smcewane@cam.ac.uk',9,'Sybille','McEwan','163-634-3417','dog',16,15);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('dpaudind@nytimes.com',37,'Deane','Paudin','719-842-6562','cat',32,101);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('smcewane@cam.ac.uk',9,'Sybille','McEwan','163-634-3417','dog',16,115);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('vgladtbachf@livejournal.com',2,'Vachel','Gladtbach','263-361-9397','dog',19,16);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('hdagwellg@unesco.org',58,'Herc','Dagwell','881-250-7916','cat',13,17);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('bsapwellh@wsj.com',44,'Bogey','Sapwell','784-212-0809','cat',43,18);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('lheinreichi@utexas.edu',23,'Lorettalorna','Heinreich','386-691-9349','dog',32,19);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ecellierj@engadget.com',29,'Enoch','Cellier','314-892-3313','dog',2,20);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('hcollcottk@comsenz.com',1,'Hort','Collcott','396-665-3457','dog',42,21);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('amacrael@auda.org.au',46,'Aldis','Macrae','512-961-9445','dog',25,22);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('lheinreichi@utexas.edu',23,'Lorettalorna','Heinreich','386-691-9349','dog',32,119);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ecellierj@engadget.com',29,'Enoch','Cellier','314-892-3313','dog',2,120);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('hcollcottk@comsenz.com',1,'Hort','Collcott','396-665-3457','dog',42,121);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('amacrael@auda.org.au',46,'Aldis','Macrae','512-961-9445','dog',25,122);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ogarzm@nih.gov',23,'Othilia','Garz','345-581-9940','cat',34,23);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('cyepiskovn@prweb.com',56,'Caritta','Yepiskov','463-328-8848','cat',39,24);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('myglesiaso@wikia.com',45,'Marijn','Yglesias','262-503-7272','dog',28,25);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('fgaganp@imdb.com',40,'Fraser','Gagan','209-979-8488','dog',12,26);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('rthormwellq@cdc.gov',22,'Royal','Thormwell','576-380-3096','cat',19,27);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('rthormwellq@cdc.gov',22,'Royal','Thormwell','576-380-3096','cat',19,127);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('uzuanr@wix.com',23,'Ulrikaumeko','Zuan','292-778-1058','cat',38,28);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('gsillwoods@bravesites.com',15,'Gary','Sillwood','531-230-4156','dog',25,29);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('gsillwoods@bravesites.com',15,'Gary','Sillwood','531-230-4156','dog',25,129);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('lsallingt@ucsd.edu',22,'Lilli','Salling','481-622-6419','dog',1,30);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ebrashu@xinhuanet.com',2,'Emilio','Brash','622-459-7600','dog',41,31);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('lhinckesv@hugedomains.com',50,'Loree','Hinckes','184-124-4637','dog',20,32);
@@ -1025,7 +1022,7 @@ INSERT INTO vetClinician(field_concentration,first_name,last_name,work_email,pho
 -- Inputting data for table 'dog'
 
 INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'4:52:09 PM','FALSE','TRUE','TRUE','Florrie',18,'FALSE','French Bulldog',178,'TRUE','TRUE','None','Male',22,29,1);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,1,'4:36:06 PM','FALSE','TRUE','TRUE','Tildy',10,'FALSE','Bulldog',41,'TRUE','FALSE','None','Male',34,26,2);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,1,'4:36:06 PM', FALSE, TRUE, TRUE,'Tildy',10, FALSE,'Bulldog',41,TRUE,FALSE,'None','Male',34,26,2);
 INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,23,'12:30:58 PM','FALSE','TRUE','FALSE','Walther',4,'TRUE','German Shorthaired Pointer',48,'TRUE','TRUE','None','Female',40,100,3);
 INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,35,'3:49:42 PM','TRUE','FALSE','FALSE','Nissa',11,'FALSE','Bulldog',207,'FALSE','TRUE','None','Male',48,50,4);
 INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,16,'3:46:09 PM','TRUE','FALSE','TRUE','Atlante',17,'TRUE','Dachshund',158,'FALSE','TRUE','None','Male',74,14,5);
