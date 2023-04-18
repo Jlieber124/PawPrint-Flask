@@ -60,23 +60,6 @@ def get_item(id):
     return jsonify(json_data)
 
 
-# Return the quantity of a specific item
-@operations.route('/getBrand/<id>', methods=['GET'])
-def get_item(id):
-    cursor = db.get_db().cursor()
-    cursor.execute(
-        'select brand \
-        from AnimalInventory \
-        where item_id = {0}'.format(id)
-        )
-    row_headers = [x[0] for x in cursor.description]
-    json_data = []
-    theData = cursor.fetchall()
-    for row in theData:
-        json_data.append(dict(zip(row_headers, row)))
-    
-    return jsonify(json_data)
-
 # update an item's quantity
 @operations.route('/inventory/<id>', methods=['PUT'])
 def update_quantity(id):
