@@ -47,7 +47,7 @@ def add_item():
 def get_item(id):
     cursor = db.get_db().cursor()
     cursor.execute(
-        'select quantity \
+        'select item_id, brand, quantity \
         from AnimalInventory \
         where item_id = {0}'.format(id)
         )
