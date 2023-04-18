@@ -6,11 +6,6 @@ flush privileges;
 
 USE animalShelter;
 
-DROP TABLE IF EXISTS CaretakerVolunteer;
-DROP TABLE IF EXISTS OperationVolunteer;
-DROP TABLE IF EXISTS Donor;
-DROP TABLE IF EXISTS Visitor;
-
 CREATE TABLE IF NOT EXISTS volunteerCoordinator(
     coordinator_id INTEGER UNIQUE NOT NULL,
     work_email VARCHAR(50) NOT NULL,
@@ -45,7 +40,7 @@ CREATE TABLE IF NOT EXISTS CaretakerVolunteer
     last_name     VARCHAR(50) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     animal_specialty VARCHAR(50) NOT NULl,
-    coordinator_id INTEGER UNIQUE NOT NULL,
+    coordinator_id INTEGER NOT NULL,
     PRIMARY KEY (caretaker_id),
     CONSTRAINT coordIDC
         FOREIGN KEY (coordinator_id) REFERENCES volunteerCoordinator(coordinator_id)
@@ -68,8 +63,8 @@ CREATE TABLE IF NOT EXISTS AnimalInventory (
     brand VARCHAR(50) NOT NULL,
     quantity INTEGER NOT NULL,
     item_category VARCHAR(50) NOT NULL,
-    date_received DATETIME NOT NULL,
-    operation_id INTEGER UNIQUE NOT NULL,
+    date_received VARCHAR(50) NOT NULL,
+    operation_id INTEGER NOT NULL,
     item_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY(item_id),
     CONSTRAINT opIDAI
@@ -81,8 +76,8 @@ CREATE TABLE IF NOT EXISTS Donor (
     last_name VARCHAR(50) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     donation_amount FLOAT(2) NOT NULL,
-    operation_id INTEGER UNIQUE NOT NULL,
-    donation_id INTEGER UNIQUE NOT NULL,
+    operation_id INTEGER NOT NULL,
+    donation_id INTEGER NOT NULL,
     PRIMARY KEY(donation_id),
     CONSTRAINT opIDD
         FOREIGN KEY (operation_id) REFERENCES OperationVolunteer(operation_id)
@@ -98,7 +93,7 @@ CREATE TABLE IF NOT EXISTS Visitor (
 );
 
 CREATE TABLE IF NOT EXISTS Rec_Vis(
-    employee_id INTEGER UNIQUE NOT NULL,
+    employee_id INTEGER NOT NULL,
     visit_time DATETIME NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     PRIMARY KEY (employee_id, visit_time, last_name),
@@ -127,7 +122,7 @@ CREATE TABLE IF NOT EXISTS veterinaryNurse (
     qualification VARCHAR(50) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    vet_id INTEGER UNIQUE NOT NULL,
+    vet_id INTEGER NOT NULL,
     PRIMARY KEY(nurseID),
     CONSTRAINT vID
         FOREIGN KEY (vet_id) REFERENCES vetClinician(vetID)
@@ -136,7 +131,7 @@ CREATE TABLE IF NOT EXISTS veterinaryNurse (
 CREATE TABLE IF NOT EXISTS dog (
     location INTEGER NOT NULL,
     walk_duration INTEGER NOT NULL,
-    group_play_time DATETIME NOT NULL,
+    group_play_time VARCHAR(50) NOT NULL,
     need_food BOOLEAN NOT NULL,
     need_clean BOOLEAN NOT NULL,
     need_walk BOOLEAN NOT NULL,
@@ -149,8 +144,8 @@ CREATE TABLE IF NOT EXISTS dog (
     temperament BOOLEAN NOT NULL,
     dietary_restriction VARCHAR(50) NOT NULL,
     sex VARCHAR(50) NOT NULL,
-    caretaker_id INTEGER UNIQUE NOT NULL,
-    vet_id INTEGER UNIQUE NOT NULL,
+    caretaker_id INTEGER NOT NULL,
+    vet_id INTEGER NOT NULL,
     dog_id INTEGER UNIQUE NOT NULL,
     PRIMARY KEY(dog_id),
     CONSTRAINT caretakeID
@@ -173,8 +168,8 @@ CREATE TABLE IF NOT EXISTS cat (
     temperament BOOLEAN NOT NULL,
     dietary_restrictions VARCHAR(50) NOT NULL,
     weight INTEGER NOT NULL,
-    caretaker_id INTEGER UNIQUE NOT NULL,
-    vet_id INTEGER UNIQUE NOT NULL,
+    caretaker_id INTEGER NOT NULL,
+    vet_id INTEGER NOT NULL,
     PRIMARY KEY (catID),
     CONSTRAINT careID
         FOREIGN KEY (caretaker_id) REFERENCES CaretakerVolunteer(caretaker_id),
@@ -188,7 +183,7 @@ CREATE TABLE IF NOT EXISTS supplier (
     last_name VARCHAR(50) NOT NULL,
     service_rep_email VARCHAR(50) UNIQUE NOT NULL,
     service_rep_phone_number VARCHAR(15) UNIQUE NOT NULL,
-    operation_id INTEGER UNIQUE NOT NULL,
+    operation_id INTEGER NOT NULL,
     PRIMARY KEY(supplierID),
     CONSTRAINT opIDSupplier
         FOREIGN KEY (operation_id) REFERENCES OperationVolunteer(operation_id)
@@ -301,259 +296,6 @@ INSERT INTO receptionist(floor,first_name,last_name,language,work_email,phone_nu
 INSERT INTO receptionist(floor,first_name,last_name,language,work_email,phone_number,coordinator_id,employee_id) VALUES (1,'Andrei','Lethieulier','Aymara','alethieulier1c@themeforest.net','209-906-1189',27,49);
 INSERT INTO receptionist(floor,first_name,last_name,language,work_email,phone_number,coordinator_id,employee_id) VALUES (1,'Aldus','McGuiness','Indonesian','amcguiness1d@google.cn','918-922-9504',47,50);
 
-
--- Inputting data into Rec_Vis
-
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-12-31','Ferrarello');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2023-01-21','Howgate');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2023-03-22','Wadge');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2023-02-08','Kilbane');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-05-21','Matessian');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (34,'2023-01-11','O''Brian');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2022-10-25','O''Rourke');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (29,'2022-09-10','Cereceres');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2022-10-25','Cockarill');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2023-01-06','Fear');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (36,'2022-11-07','Wakerley');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-06-04','Arthan');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2022-08-30','Calcraft');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2022-06-23','Hitter');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-11-13','Minnis');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2022-07-11','Scholtz');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2023-02-26','Hulks');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (7,'2022-11-13','Durrett');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (16,'2022-12-04','Andrichak');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2022-05-22','Semper');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-12-30','Tookill');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-04-26','Clemmens');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2022-08-25','Ottery');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (13,'2022-09-30','Bythway');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2023-01-13','Gillbe');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2022-05-26','Bunstone');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (9,'2022-11-01','Geerdts');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (3,'2023-03-19','Gjerde');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-11-08','Lulham');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-09-22','Titterrell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2022-10-10','Vigietti');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-09-03','Devonish');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2023-02-02','Fritter');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (36,'2022-04-19','Postill');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2022-10-18','Wye');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (16,'2022-05-03','Starkey');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (48,'2023-02-11','Downs');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-04-17','Whorf');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (29,'2022-12-28','Tyhurst');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (41,'2022-11-11','Bancroft');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-06-14','Inold');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-05-30','Hatherell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2022-12-04','Andrichak');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (25,'2023-01-01','Trethowan');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2022-10-27','Swatton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2023-03-30','Dumbelton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (28,'2022-06-04','Arthan');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (24,'2022-06-12','Garnsworth');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (48,'2023-02-28','Shortell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-05-08','Westbury');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2023-01-28','McNickle');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2022-12-22','Schubbert');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2022-09-30','Bythway');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-05-22','Semper');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (3,'2022-06-18','Instock');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2022-07-24','Keaton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (24,'2023-02-16','Curdell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (42,'2022-10-16','Lisett');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2023-03-12','Sherington');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-05-30','Shard');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2023-01-21','Howgate');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2022-08-07','Kringe');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (7,'2022-08-10','Moss');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2023-01-26','Bownes');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (48,'2023-03-10','Lalonde');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2022-07-07','Smaile');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (10,'2022-06-28','Mathiassen');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (32,'2023-01-29','Whorlton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2023-03-19','Gjerde');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2022-09-12','Presidey');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-06-17','Camier');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (23,'2023-01-28','McNickle');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2022-08-03','Sudell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (29,'2022-12-09','Najera');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2022-12-22','Schubbert');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2022-12-04','Andrichak');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-07-16','Jeannel');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2022-08-22','Cardiff');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (42,'2022-09-22','Titterrell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-04-22','Wortman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2022-12-23','Stave');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (21,'2023-04-13','Cherry Holme');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2022-06-24','Bolver');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (46,'2022-06-26','Greenwood');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (46,'2022-08-25','Ottery');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-09-30','Bythway');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (21,'2022-04-29','Loche');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2022-10-01','Nisuis');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2022-04-22','Wortman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-12-22','Schubbert');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2022-12-10','Harwin');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (22,'2022-11-01','Geerdts');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-10-20','Purkins');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (10,'2023-04-13','St Ange');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (9,'2022-06-14','Inold');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (19,'2022-05-25','Cantu');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (28,'2022-10-25','O''Rourke');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-10-24','Janeway');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-10-16','Inseal');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2023-01-18','Tunstall');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2022-07-06','Dearman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2023-04-06','Tingey');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (10,'2022-09-30','Bythway');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-05-12','Tunn');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-05-14','McKinstry');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-04-30','Labeuil');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2023-02-20','Bowling');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2023-02-21','Barensky');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-12-18','Gyngell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (25,'2022-08-31','Howels');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2022-07-16','Sneath');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2023-03-30','Dumbelton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (44,'2022-08-07','Kringe');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2023-01-18','Tunstall');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-08-06','Poznan');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2023-03-30','Briars');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (19,'2022-06-12','Epps');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-11-26','Blucher');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-12-28','Tyhurst');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (45,'2023-01-26','Bownes');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2023-04-15','Snoddon');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-07-03','Sampson');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (22,'2023-01-06','Fear');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2022-10-02','Petegre');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (23,'2022-05-21','Timoney');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (13,'2022-12-15','Fiddeman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-06-25','Dowker');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (47,'2022-09-20','Gilders');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (3,'2022-05-24','Snibson');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (21,'2022-12-21','Bentje');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (2,'2022-06-24','Bolver');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2022-12-31','Clay');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (34,'2022-11-26','Ambrozewicz');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (41,'2023-01-23','Oglesbee');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-12-10','Harwin');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2023-02-08','Kilbane');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2023-04-01','Alman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (32,'2022-05-21','Matessian');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2023-03-10','Cripin');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2022-05-19','Colhoun');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-08-19','Deacock');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2022-11-26','Blucher');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2023-01-25','Huckel');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (46,'2022-10-18','Wye');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (19,'2023-01-01','Mandel');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2022-12-09','Lochead');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-08-27','Attack');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-12-15','Fiddeman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2023-03-30','Briars');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-06-29','Keesman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2023-04-13','St Ange');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (13,'2022-08-26','Morot');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2022-08-22','Cardiff');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (9,'2022-04-22','Wortman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2022-10-25','Cockarill');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (45,'2023-02-19','Cubin');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (44,'2022-08-13','Newland');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-06-05','Lampel');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (34,'2022-10-02','Petegre');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (49,'2023-03-30','Dumbelton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2022-11-05','Anthiftle');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (16,'2022-10-07','Dongate');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2022-06-29','Keesman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-08-03','Timberlake');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2022-05-27','Burfoot');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-12-01','Lansdowne');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2023-03-30','Briars');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (41,'2023-04-14','Broune');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2023-02-19','Alten');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-06-07','Rimmington');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (41,'2022-11-05','Anthiftle');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-08-22','Ben-Aharon');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2022-11-09','Saggs');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (47,'2022-09-23','Attack');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (28,'2022-10-01','Buttriss');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (10,'2023-03-10','Lalonde');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (34,'2022-07-07','Smaile');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (45,'2022-05-08','Westbury');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (19,'2022-08-13','Newland');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2022-05-25','Cantu');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2023-03-12','Sherington');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2022-07-11','Cow');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2022-06-17','Camier');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2022-10-13','Lundbeck');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-06-12','Garnsworth');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-12-09','Lochead');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2023-03-29','Dimitrijevic');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (2,'2023-03-01','Taysbil');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2022-08-03','Timberlake');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2022-09-15','Bridson');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2022-05-31','Ballham');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (49,'2022-06-12','Epps');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (10,'2023-01-25','Garie');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (49,'2022-12-31','Ferrarello');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (44,'2022-05-19','Colhoun');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (41,'2022-12-08','Heater');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2023-01-05','Rastrick');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-06-23','Hitter');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (16,'2023-01-23','Oglesbee');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (23,'2022-09-15','Bridson');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2023-02-11','Downs');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2023-02-08','Kilbane');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (9,'2022-08-29','Boeter');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (45,'2022-05-12','Tunn');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2023-01-26','Bownes');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (7,'2023-02-18','Mewe');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-06-17','Camier');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (46,'2023-01-02','Dufton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-12-24','Hauger');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-12-31','Clay');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2022-09-22','Titterrell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2022-07-25','Madgin');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (16,'2022-12-15','Fiddeman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (24,'2022-10-01','Nisuis');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-08-30','Calcraft');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (6,'2022-11-09','Saggs');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (23,'2022-10-05','Hessentaler');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (28,'2022-05-03','Bus');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (44,'2022-12-15','Fiddeman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-10-10','Vigietti');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2023-01-02','Dufton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2022-07-11','Cow');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-06-04','Arthan');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (42,'2022-09-17','Crosfeld');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (45,'2023-01-29','Whorlton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (9,'2022-08-13','Newland');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2022-11-11','Bancroft');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (32,'2022-05-04','Artois');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2023-02-02','Fritter');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (42,'2022-08-26','Morot');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-12-28','Rustadge');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-05-30','Hatherell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (23,'2023-02-01','Dunk');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (25,'2023-02-16','Curdell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (32,'2022-11-13','Durrett');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (49,'2022-05-12','Tunn');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-05-10','Morefield');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2022-07-18','Keher');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2023-02-09','Knobell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (47,'2022-09-15','Matthessen');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2022-07-15','Hoy');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (16,'2022-07-06','Dearman');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-12-04','Winscom');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2022-05-26','Bunstone');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (29,'2022-09-22','Titterrell');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2023-02-15','McChesney');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2022-12-24','Giffon');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (41,'2022-05-31','Ballham');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (46,'2022-07-24','Keaton');
-INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (24,'2022-07-07','Smaile');
 
 
 -- Inputting data into table 'Visitor'
@@ -810,6 +552,163 @@ INSERT INTO Visitor(first_name,last_name,phone_number,animal_interest,visit_time
 INSERT INTO Visitor(first_name,last_name,phone_number,animal_interest,visit_time) VALUES ('Phillip','Ferrarello','868-403-7575',18,'2022-12-31');
 
 
+-- Inputting data into Rec_Vis
+
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-12-31','Ferrarello');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2023-01-21','Howgate');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2023-03-22','Wadge');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2023-02-08','Kilbane');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-05-21','Matessian');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (34,'2023-01-11','O''Brian');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2022-10-25','O''Rourke');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (29,'2022-09-10','Cereceres');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2022-10-25','Cockarill');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2023-01-06','Fear');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (36,'2022-11-07','Wakerley');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-06-04','Arthan');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2022-08-30','Calcraft');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2022-06-23','Hitter');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-11-13','Minnis');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2022-07-11','Scholtz');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2023-02-26','Hulks');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (7,'2022-11-13','Durrett');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (16,'2022-12-04','Andrichak');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2022-05-22','Semper');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-12-30','Tookill');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-04-26','Clemmens');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2022-08-25','Ottery');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (13,'2022-09-30','Bythway');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2023-01-13','Gillbe');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2022-05-26','Bunstone');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (9,'2022-11-01','Geerdts');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (3,'2023-03-19','Gjerde');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-11-08','Lulham');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-09-22','Titterrell');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2022-10-10','Vigietti');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-09-03','Devonish');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2023-02-02','Fritter');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (36,'2022-04-19','Postill');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2022-10-18','Wye');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (16,'2022-05-03','Starkey');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (48,'2023-02-11','Downs');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-04-17','Whorf');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (29,'2022-12-28','Tyhurst');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (41,'2022-11-11','Bancroft');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-06-14','Inold');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-05-30','Hatherell');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (39,'2022-12-04','Andrichak');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (25,'2023-01-01','Trethowan');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2022-10-27','Swatton');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2023-03-30','Dumbelton');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (28,'2022-06-04','Arthan');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (24,'2022-06-12','Garnsworth');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (48,'2023-02-28','Shortell');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-05-08','Westbury');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2023-01-28','McNickle');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2022-12-22','Schubbert');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2022-09-30','Bythway');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-05-22','Semper');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (3,'2022-06-18','Instock');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2022-07-24','Keaton');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (24,'2023-02-16','Curdell');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (42,'2022-10-16','Lisett');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2023-03-12','Sherington');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-05-30','Shard');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2023-01-21','Howgate');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2022-08-07','Kringe');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (7,'2022-08-10','Moss');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2023-01-26','Bownes');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (48,'2023-03-10','Lalonde');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2022-07-07','Smaile');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (10,'2022-06-28','Mathiassen');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (32,'2023-01-29','Whorlton');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2023-03-19','Gjerde');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2022-09-12','Presidey');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-06-17','Camier');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (23,'2023-01-28','McNickle');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2022-08-03','Sudell');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (29,'2022-12-09','Najera');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2022-12-22','Schubbert');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2022-12-04','Andrichak');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-07-16','Jeannel');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2022-08-22','Cardiff');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (42,'2022-09-22','Titterrell');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-04-22','Wortman');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2022-12-23','Stave');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (21,'2023-04-13','Cherry Holme');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2022-06-24','Bolver');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (46,'2022-06-26','Greenwood');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (46,'2022-08-25','Ottery');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-09-30','Bythway');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (21,'2022-04-29','Loche');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2022-10-01','Nisuis');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2022-04-22','Wortman');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-12-22','Schubbert');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (35,'2022-12-10','Harwin');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (22,'2022-11-01','Geerdts');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-10-20','Purkins');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (10,'2023-04-13','St Ange');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (9,'2022-06-14','Inold');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (19,'2022-05-25','Cantu');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (28,'2022-10-25','O''Rourke');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-10-24','Janeway');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-10-16','Inseal');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2023-01-18','Tunstall');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2022-07-06','Dearman');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2023-04-06','Tingey');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (10,'2022-09-30','Bythway');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2022-05-12','Tunn');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (4,'2022-05-14','McKinstry');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-04-30','Labeuil');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (1,'2023-02-20','Bowling');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2023-02-21','Barensky');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-12-18','Gyngell');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (25,'2022-08-31','Howels');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2022-07-16','Sneath');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2023-03-30','Dumbelton');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (44,'2022-08-07','Kringe');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2023-01-18','Tunstall');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-08-06','Poznan');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (26,'2023-03-30','Briars');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (19,'2022-06-12','Epps');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-11-26','Blucher');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (17,'2022-12-28','Tyhurst');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (45,'2023-01-26','Bownes');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (27,'2023-04-15','Snoddon');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (50,'2022-07-03','Sampson');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (22,'2023-01-06','Fear');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2022-10-02','Petegre');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (23,'2022-05-21','Timoney');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (13,'2022-12-15','Fiddeman');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-06-25','Dowker');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (47,'2022-09-20','Gilders');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (3,'2022-05-24','Snibson');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (21,'2022-12-21','Bentje');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (2,'2022-06-24','Bolver');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2022-12-31','Clay');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (34,'2022-11-26','Ambrozewicz');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (41,'2023-01-23','Oglesbee');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (11,'2022-12-10','Harwin');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2023-02-08','Kilbane');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (38,'2023-04-01','Alman');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (32,'2022-05-21','Matessian');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (20,'2023-03-10','Cripin');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (14,'2022-05-19','Colhoun');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (40,'2022-08-19','Deacock');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (31,'2022-11-26','Blucher');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (37,'2023-01-25','Huckel');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (46,'2022-10-18','Wye');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (19,'2023-01-01','Mandel');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (33,'2022-12-09','Lochead');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (43,'2022-08-27','Attack');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (30,'2022-12-15','Fiddeman');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (15,'2023-03-30','Briars');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (5,'2022-06-29','Keesman');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (18,'2023-04-13','St Ange');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (13,'2022-08-26','Morot');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (8,'2022-08-22','Cardiff');
+INSERT INTO Rec_Vis(employee_id,visit_time,last_name) VALUES (9,'2022-04-22','Wortman');
+
 -- Inputting data into 'CaretakerVolunteer'
 
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('jraynes0@uol.com.br',37,'Joyan','Raynes','547-283-5927','dog',2,1);
@@ -825,22 +724,22 @@ INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ppinnockea@blinklist.com',10,'Philomena','Pinnocke','967-488-4410','cat',44,11);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('bcappb@squidoo.com',50,'Bette','Capp','671-857-8371','dog',50,12);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ialdridgec@blinklist.com',9,'Idaline','Aldridge','138-344-8039','dog',15,13);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('dpaudind@nytimes.com',37,'Deane','Paudin','719-842-6562','cat',32,101);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('smcewane@cam.ac.uk',9,'Sybille','McEwan','163-634-3417','dog',16,115);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('dpaudind@nytimes.com',37,'Deane','Paudin','719-842-6562','cat',32,14);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('smcewane@cam.ac.uk',9,'Sybille','McEwan','163-634-3417','dog',16,15);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('vgladtbachf@livejournal.com',2,'Vachel','Gladtbach','263-361-9397','dog',19,16);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('hdagwellg@unesco.org',58,'Herc','Dagwell','881-250-7916','cat',13,17);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('bsapwellh@wsj.com',44,'Bogey','Sapwell','784-212-0809','cat',43,18);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('lheinreichi@utexas.edu',23,'Lorettalorna','Heinreich','386-691-9349','dog',32,119);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ecellierj@engadget.com',29,'Enoch','Cellier','314-892-3313','dog',2,120);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('hcollcottk@comsenz.com',1,'Hort','Collcott','396-665-3457','dog',42,121);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('amacrael@auda.org.au',46,'Aldis','Macrae','512-961-9445','dog',25,122);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('lheinreichi@utexas.edu',23,'Lorettalorna','Heinreich','386-691-9349','dog',32,19);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ecellierj@engadget.com',29,'Enoch','Cellier','314-892-3313','dog',2,20);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('hcollcottk@comsenz.com',1,'Hort','Collcott','396-665-3457','dog',42,21);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('amacrael@auda.org.au',46,'Aldis','Macrae','512-961-9445','dog',25,22);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ogarzm@nih.gov',23,'Othilia','Garz','345-581-9940','cat',34,23);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('cyepiskovn@prweb.com',56,'Caritta','Yepiskov','463-328-8848','cat',39,24);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('myglesiaso@wikia.com',45,'Marijn','Yglesias','262-503-7272','dog',28,25);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('fgaganp@imdb.com',40,'Fraser','Gagan','209-979-8488','dog',12,26);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('rthormwellq@cdc.gov',22,'Royal','Thormwell','576-380-3096','cat',19,127);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('rthormwellq@cdc.gov',22,'Royal','Thormwell','576-380-3096','cat',19,27);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('uzuanr@wix.com',23,'Ulrikaumeko','Zuan','292-778-1058','cat',38,28);
-INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('gsillwoods@bravesites.com',15,'Gary','Sillwood','531-230-4156','dog',25,129);
+INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('gsillwoods@bravesites.com',15,'Gary','Sillwood','531-230-4156','dog',25,29);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('lsallingt@ucsd.edu',22,'Lilli','Salling','481-622-6419','dog',1,30);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('ebrashu@xinhuanet.com',2,'Emilio','Brash','622-459-7600','dog',41,31);
 INSERT INTO CaretakerVolunteer(work_email,experience,first_name,last_name,phone_number,animal_specialty,coordinator_id,caretaker_id) VALUES ('lhinckesv@hugedomains.com',50,'Loree','Hinckes','184-124-4637','dog',20,32);
@@ -1020,210 +919,210 @@ INSERT INTO vetClinician(field_concentration,first_name,last_name,work_email,pho
 
 -- Inputting data for table 'dog'
 
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'4:52:09','FALSE','TRUE','TRUE','Florrie',18,'FALSE','French Bulldog',178,'TRUE','TRUE','None','Male',22,29,1);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'4:52:09', FALSE,TRUE,TRUE,'Florrie',18,FALSE,'French Bulldog',178,TRUE,TRUE,'None','Male',22,29,1);
 INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,1,'4:36:06', FALSE, TRUE, TRUE,'Tildy',10, FALSE,'Bulldog',41,TRUE,FALSE,'None','Male',34,26,2);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,23,'12:30:58','FALSE','TRUE','FALSE','Walther',4,'TRUE','German Shorthaired Pointer',48,'TRUE','TRUE','None','Female',40,100,3);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,35,'3:49:42','TRUE','FALSE','FALSE','Nissa',11,'FALSE','Bulldog',207,'FALSE','TRUE','None','Male',48,50,4);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,16,'3:46:09','TRUE','FALSE','TRUE','Atlante',17,'TRUE','Dachshund',158,'FALSE','TRUE','None','Male',74,14,5);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,17,'9:51:04','TRUE','TRUE','TRUE','Wenonah',10,'FALSE','Bulldog',149,'TRUE','FALSE','None','Male',51,16,6);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,11,'4:08:36','TRUE','TRUE','FALSE','Janette',11,'TRUE','German Shepherd',204,'FALSE','TRUE','None','Female',10,83,7);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,20,'2:22:47','TRUE','TRUE','TRUE','Marlon',3,'TRUE','Beagle',149,'FALSE','TRUE','None','Female',82,90,8);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,5,'10:17:01','TRUE','FALSE','FALSE','Antonino',2,'FALSE','Poodle',185,'TRUE','TRUE','None','Male',14,92,9);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,32,'2:12:01','FALSE','FALSE','TRUE','Fan',7,'TRUE','Bulldog',108,'TRUE','TRUE','None','Male',99,30,10);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'1:21:59','TRUE','TRUE','TRUE','Andee',16,'FALSE','Doberman Pinscher',62,'FALSE','TRUE','None','Male',81,32,11);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,20,'12:24:51','TRUE','FALSE','FALSE','Donaugh',1,'TRUE','French Bulldog',146,'TRUE','FALSE','None','Male',49,21,12);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,19,'3:43:11','FALSE','FALSE','FALSE','Karlis',6,'FALSE','Rottweiler',204,'TRUE','TRUE','None','Male',84,86,13);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,29,'1:28:42','TRUE','TRUE','TRUE','Dianna',10,'TRUE','Boxer',216,'TRUE','FALSE','None','Female',11,54,14);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,2,'4:24:03','TRUE','FALSE','FALSE','Kate',2,'FALSE','Labrador Retriever',89,'TRUE','TRUE','None','Male',22,4,15);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,18,'4:38:04','TRUE','TRUE','TRUE','Selle',18,'FALSE','German Shepherd',99,'TRUE','TRUE','None','Male',55,97,16);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,9,'10:24:34','FALSE','TRUE','TRUE','Tiebold',7,'FALSE','Poodle',88,'FALSE','FALSE','None','Female',48,6,17);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,31,'11:29:51','FALSE','TRUE','FALSE','Deane',14,'FALSE','Dachshund',17,'FALSE','TRUE','None','Female',35,38,18);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,16,'12:14:39','FALSE','TRUE','TRUE','Yuma',10,'TRUE','Boxer',210,'TRUE','FALSE','None','Female',41,32,19);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,11,'12:15:23','FALSE','TRUE','FALSE','Kylila',8,'TRUE','Dachshund',28,'FALSE','TRUE','None','Male',36,80,20);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,7,'3:54:57','TRUE','TRUE','TRUE','Raimondo',6,'FALSE','German Shepherd',184,'TRUE','FALSE','None','Male',61,11,21);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,18,'12:09:13','FALSE','FALSE','FALSE','Hewie',8,'TRUE','Yorkshire Terrier',41,'FALSE','FALSE','None','Male',20,19,22);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,24,'11:08:06','FALSE','FALSE','TRUE','Lennie',3,'FALSE','Rottweiler',68,'TRUE','TRUE','None','Female',97,79,23);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,34,'3:19:04','TRUE','TRUE','FALSE','Winslow',17,'FALSE','German Shorthaired Pointer',104,'FALSE','TRUE','None','Female',31,41,24);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,7,'10:05:53','FALSE','TRUE','TRUE','Francisco',6,'TRUE','French Bulldog',36,'TRUE','FALSE','None','Male',99,36,25);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,11,'1:32:31','FALSE','FALSE','FALSE','Shea',11,'FALSE','Yorkshire Terrier',19,'TRUE','FALSE','None','Female',32,22,26);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,32,'11:11:21','FALSE','TRUE','TRUE','Trueman',8,'FALSE','Rottweiler',143,'FALSE','FALSE','None','Female',80,39,27);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,31,'12:09:38','FALSE','FALSE','FALSE','Harriot',18,'TRUE','Labrador Retriever',219,'TRUE','FALSE','None','Female',95,96,28);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,3,'9:01:21','FALSE','FALSE','FALSE','Bern',13,'TRUE','French Bulldog',225,'TRUE','FALSE','None','Male',98,1,29);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,11,'2:18:15','FALSE','TRUE','FALSE','Lettie',14,'FALSE','Boxer',71,'TRUE','TRUE','None','Male',13,6,30);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,19,'10:53:37','FALSE','TRUE','TRUE','Marty',6,'FALSE','Labrador Retriever',75,'FALSE','FALSE','None','Male',28,58,31);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,13,'1:38:39','FALSE','TRUE','FALSE','Mellicent',16,'FALSE','German Shepherd',98,'FALSE','TRUE','None','Female',96,13,32);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,32,'4:14:10','FALSE','TRUE','TRUE','Dorelle',12,'TRUE','Yorkshire Terrier',142,'FALSE','TRUE','None','Male',32,45,33);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,11,'12:05:04','TRUE','TRUE','TRUE','Joelle',7,'FALSE','German Shepherd',205,'TRUE','FALSE','None','Male',92,88,34);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,32,'12:30:05','TRUE','TRUE','TRUE','Myrah',9,'FALSE','Bulldog',196,'TRUE','FALSE','None','Male',60,69,35);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,12,'11:40:42','TRUE','TRUE','TRUE','Kariotta',11,'FALSE','Poodle',81,'TRUE','TRUE','None','Female',52,10,36);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,15,'12:04:43','FALSE','FALSE','FALSE','Griffin',7,'FALSE','Poodle',146,'TRUE','TRUE','None','Female',89,91,37);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,16,'9:19:58','FALSE','FALSE','FALSE','Solly',5,'TRUE','Yorkshire Terrier',164,'FALSE','TRUE','None','Female',12,51,38);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,4,'4:40:16','FALSE','TRUE','FALSE','Antonetta',5,'FALSE','Golden Retriver',156,'TRUE','TRUE','None','Female',67,12,39);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,5,'1:48:36','FALSE','TRUE','FALSE','Claudius',1,'FALSE','Beagle',128,'TRUE','TRUE','None','Female',82,74,40);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,5,'12:21:33','FALSE','FALSE','FALSE','Hazlett',10,'TRUE','Beagle',145,'TRUE','FALSE','None','Female',64,23,41);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,20,'11:14:22','FALSE','TRUE','FALSE','Haydon',12,'FALSE','Dachshund',214,'TRUE','FALSE','None','Female',54,43,42);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,23,'10:54:45','TRUE','FALSE','TRUE','Pascal',16,'TRUE','Yorkshire Terrier',45,'TRUE','FALSE','None','Female',7,50,43);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,32,'2:17:14','TRUE','FALSE','FALSE','Dick',2,'TRUE','Yorkshire Terrier',44,'TRUE','TRUE','None','Male',43,98,44);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,6,'4:01:05','FALSE','TRUE','FALSE','Nichole',8,'TRUE','Rottweiler',127,'FALSE','FALSE','None','Female',62,33,45);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,9,'9:05:11','TRUE','FALSE','FALSE','Dorolisa',6,'TRUE','German Shepherd',80,'FALSE','TRUE','None','Female',42,27,46);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,2,'10:23:36','FALSE','TRUE','TRUE','Brandice',15,'FALSE','Golden Retriver',109,'FALSE','TRUE','None','Male',63,62,47);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,21,'1:06:37','TRUE','TRUE','TRUE','Anica',3,'FALSE','German Shorthaired Pointer',126,'TRUE','FALSE','None','Male',55,43,48);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,4,'4:46:52','TRUE','TRUE','TRUE','Ingaborg',5,'FALSE','Bulldog',216,'TRUE','TRUE','None','Female',41,26,49);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,34,'3:56:14','TRUE','TRUE','TRUE','Cristen',13,'FALSE','Dachshund',102,'TRUE','TRUE','None','Female',8,75,50);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,17,'12:54:07','TRUE','FALSE','TRUE','Ilise',5,'FALSE','Labrador Retriever',70,'TRUE','TRUE','None','Male',52,77,51);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,20,'10:26:04','FALSE','TRUE','TRUE','Fredrick',7,'FALSE','French Bulldog',31,'FALSE','FALSE','None','Female',9,97,52);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,19,'9:57:07','TRUE','FALSE','TRUE','Ray',15,'FALSE','German Shorthaired Pointer',70,'TRUE','TRUE','None','Female',74,7,53);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,11,'10:24:40','FALSE','TRUE','FALSE','Zora',16,'FALSE','Rottweiler',143,'TRUE','FALSE','None','Female',76,22,54);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,15,'12:02:14','TRUE','TRUE','TRUE','Brianna',15,'FALSE','Yorkshire Terrier',89,'FALSE','FALSE','None','Female',29,60,55);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,14,'9:53:18','TRUE','TRUE','TRUE','Larisa',15,'TRUE','Doberman Pinscher',133,'FALSE','TRUE','None','Female',97,1,56);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,33,'9:15:11','TRUE','FALSE','FALSE','Corny',6,'TRUE','German Shorthaired Pointer',166,'TRUE','TRUE','None','Male',35,92,57);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,12,'10:18:52','FALSE','TRUE','FALSE','Pip',13,'TRUE','French Bulldog',106,'FALSE','FALSE','None','Male',3,94,58);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,27,'3:00:10','TRUE','FALSE','FALSE','Jesus',15,'FALSE','German Shepherd',219,'FALSE','FALSE','None','Male',78,31,59);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,31,'4:09:10','TRUE','TRUE','TRUE','Esta',8,'FALSE','Dachshund',217,'TRUE','FALSE','None','Male',59,99,60);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,33,'4:47:17','TRUE','TRUE','TRUE','Kory',8,'FALSE','Labrador Retriever',25,'FALSE','FALSE','None','Female',99,92,61);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,2,'9:41:13','FALSE','TRUE','FALSE','Saunderson',5,'TRUE','Beagle',31,'TRUE','TRUE','None','Male',33,12,62);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,29,'10:41:49','FALSE','TRUE','TRUE','Rakel',8,'FALSE','Golden Retriver',150,'FALSE','TRUE','None','Female',58,17,63);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,3,'4:30:26','TRUE','FALSE','TRUE','Alvinia',17,'TRUE','Beagle',114,'TRUE','FALSE','None','Female',31,19,64);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,26,'4:51:41','FALSE','FALSE','TRUE','Cly',12,'TRUE','Rottweiler',91,'TRUE','TRUE','None','Female',32,34,65);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,18,'2:35:14','FALSE','FALSE','FALSE','Libbi',17,'FALSE','Dachshund',23,'TRUE','TRUE','None','Female',88,22,66);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,27,'3:53:15','TRUE','TRUE','FALSE','Audre',18,'FALSE','Boxer',89,'FALSE','FALSE','None','Female',61,10,67);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,17,'11:55:09','FALSE','TRUE','TRUE','Jaquelyn',1,'TRUE','German Shorthaired Pointer',197,'FALSE','TRUE','None','Female',5,64,68);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,11,'9:33:06','FALSE','TRUE','TRUE','Papageno',1,'TRUE','Beagle',159,'FALSE','FALSE','None','Female',36,16,69);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,10,'2:07:00','FALSE','TRUE','TRUE','Raoul',2,'FALSE','German Shorthaired Pointer',145,'FALSE','FALSE','None','Male',94,68,70);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,18,'4:48:04','FALSE','TRUE','FALSE','Luise',7,'TRUE','Boxer',52,'FALSE','TRUE','None','Male',82,48,71);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,4,'11:22:18','FALSE','TRUE','TRUE','Irene',1,'FALSE','Doberman Pinscher',106,'TRUE','TRUE','None','Female',80,97,72);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,18,'9:10:34','FALSE','TRUE','FALSE','Jsandye',3,'TRUE','Doberman Pinscher',16,'FALSE','TRUE','None','Female',9,98,73);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,6,'9:42:39','TRUE','FALSE','FALSE','Hope',17,'TRUE','Rottweiler',163,'TRUE','TRUE','None','Female',42,68,74);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,6,'4:39:54','FALSE','FALSE','FALSE','Salvidor',15,'FALSE','Bulldog',66,'TRUE','TRUE','None','Male',53,10,75);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,23,'12:03:47','TRUE','FALSE','FALSE','Jamison',13,'TRUE','Rottweiler',44,'TRUE','TRUE','None','Female',9,27,76);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'9:06:14','FALSE','FALSE','FALSE','Christen',8,'FALSE','Rottweiler',91,'TRUE','FALSE','None','Male',74,91,77);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,11,'10:04:14','FALSE','FALSE','FALSE','Trescha',6,'FALSE','German Shepherd',146,'FALSE','TRUE','None','Female',37,5,78);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,13,'4:16:17','TRUE','TRUE','FALSE','Georgena',8,'TRUE','Doberman Pinscher',48,'FALSE','FALSE','None','Female',76,38,79);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,14,'9:16:42','FALSE','FALSE','TRUE','Janaye',9,'TRUE','Yorkshire Terrier',112,'FALSE','FALSE','None','Male',93,75,80);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,34,'4:40:12','FALSE','TRUE','FALSE','Mia',2,'FALSE','Poodle',54,'TRUE','FALSE','None','Male',54,66,81);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,29,'10:08:29','TRUE','FALSE','TRUE','Arabella',17,'TRUE','German Shorthaired Pointer',133,'TRUE','TRUE','None','Male',77,31,82);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,35,'9:26:34','FALSE','FALSE','FALSE','Sophia',16,'TRUE','Beagle',109,'FALSE','TRUE','None','Male',15,74,83);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'4:22:54','FALSE','FALSE','FALSE','Evelyn',9,'FALSE','Doberman Pinscher',196,'FALSE','TRUE','None','Female',83,49,84);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,14,'10:59:38','FALSE','TRUE','TRUE','Quincy',13,'FALSE','Beagle',168,'TRUE','FALSE','None','Male',30,73,85);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,20,'3:03:56','FALSE','TRUE','FALSE','Reine',16,'TRUE','Yorkshire Terrier',199,'FALSE','TRUE','None','Female',33,5,86);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,15,'4:44:54','TRUE','FALSE','FALSE','Shantee',12,'TRUE','Doberman Pinscher',134,'TRUE','TRUE','None','Male',16,9,87);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,19,'1:14:53','TRUE','TRUE','TRUE','Dot',15,'TRUE','Yorkshire Terrier',198,'FALSE','TRUE','None','Male',7,32,88);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,8,'11:46:37','FALSE','FALSE','TRUE','Rurik',6,'FALSE','Yorkshire Terrier',17,'FALSE','FALSE','None','Male',82,53,89);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,10,'4:43:18','TRUE','TRUE','TRUE','Helsa',18,'TRUE','Dachshund',84,'TRUE','TRUE','None','Male',55,100,90);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,32,'12:24:33','FALSE','TRUE','FALSE','Jacintha',13,'FALSE','Golden Retriver',120,'FALSE','TRUE','None','Female',76,4,91);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,11,'1:21:28','FALSE','TRUE','TRUE','Shelby',5,'TRUE','Dachshund',108,'FALSE','FALSE','None','Female',21,54,92);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,6,'10:31:41','TRUE','FALSE','TRUE','Mildrid',11,'FALSE','Poodle',87,'TRUE','FALSE','None','Male',66,14,93);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,33,'12:24:23','TRUE','FALSE','FALSE','Vernen',3,'FALSE','Labrador Retriever',179,'FALSE','TRUE','None','Female',56,92,94);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,23,'10:21:44','FALSE','FALSE','TRUE','Rahal',1,'TRUE','Yorkshire Terrier',94,'FALSE','FALSE','None','Male',41,58,95);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,2,'12:01:44','TRUE','FALSE','TRUE','Petronilla',16,'FALSE','Rottweiler',206,'TRUE','FALSE','None','Female',17,39,96);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,13,'10:10:40','FALSE','FALSE','TRUE','Tonye',17,'FALSE','German Shepherd',118,'TRUE','TRUE','None','Female',71,25,97);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,29,'10:12:43','TRUE','TRUE','TRUE','Shanie',5,'TRUE','Rottweiler',215,'TRUE','FALSE','None','Male',25,41,98);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,18,'12:22:26','FALSE','TRUE','TRUE','Leroi',10,'TRUE','Beagle',62,'TRUE','TRUE','None','Male',16,38,99);
-INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,30,'12:58:24','FALSE','FALSE','TRUE','Guido',18,'TRUE','Golden Retriver',31,'TRUE','FALSE','None','Male',10,9,100);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,23,'12:30:58',FALSE,TRUE,FALSE,'Walther',4,TRUE,'German Shorthaired Pointer',48,TRUE,TRUE,'None','Female',40,100,3);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,35,'3:49:42',TRUE,FALSE,FALSE,'Nissa',11,FALSE,'Bulldog',207,FALSE,TRUE,'None','Male',48,50,4);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,16,'3:46:09',TRUE,FALSE,TRUE,'Atlante',17,TRUE,'Dachshund',158,FALSE,TRUE,'None','Male',74,14,5);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,17,'9:51:04',TRUE,TRUE,TRUE,'Wenonah',10,FALSE,'Bulldog',149,TRUE,FALSE,'None','Male',51,16,6);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,11,'4:08:36',TRUE,TRUE,FALSE,'Janette',11,TRUE,'German Shepherd',204,FALSE,TRUE,'None','Female',10,83,7);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,20,'2:22:47',TRUE,TRUE,TRUE,'Marlon',3,TRUE,'Beagle',149,FALSE,TRUE,'None','Female',82,90,8);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,5,'10:17:01',TRUE,FALSE,FALSE,'Antonino',2,FALSE,'Poodle',185,TRUE,TRUE,'None','Male',14,92,9);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,32,'2:12:01',FALSE,FALSE,TRUE,'Fan',7,TRUE,'Bulldog',108,TRUE,TRUE,'None','Male',99,30,10);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'1:21:59',TRUE,TRUE,TRUE,'Andee',16,FALSE,'Doberman Pinscher',62,FALSE,TRUE,'None','Male',81,32,11);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,20,'12:24:51',TRUE,FALSE,FALSE,'Donaugh',1,TRUE,'French Bulldog',146,TRUE,FALSE,'None','Male',49,21,12);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,19,'3:43:11',FALSE,FALSE,FALSE,'Karlis',6,FALSE,'Rottweiler',204,TRUE,TRUE,'None','Male',84,86,13);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,29,'1:28:42',TRUE,TRUE,TRUE,'Dianna',10,TRUE,'Boxer',216,TRUE,FALSE,'None','Female',11,54,14);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,2,'4:24:03',TRUE,FALSE,FALSE,'Kate',2,FALSE,'Labrador Retriever',89,TRUE,TRUE,'None','Male',22,4,15);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,18,'4:38:04',TRUE,TRUE,TRUE,'Selle',18,FALSE,'German Shepherd',99,TRUE,TRUE,'None','Male',55,97,16);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,9,'10:24:34',FALSE,TRUE,TRUE,'Tiebold',7,FALSE,'Poodle',88,FALSE,FALSE,'None','Female',48,6,17);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,31,'11:29:51',FALSE,TRUE,FALSE,'Deane',14,FALSE,'Dachshund',17,FALSE,TRUE,'None','Female',35,38,18);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,16,'12:14:39',FALSE,TRUE,TRUE,'Yuma',10,TRUE,'Boxer',210,TRUE,FALSE,'None','Female',41,32,19);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,11,'12:15:23',FALSE,TRUE,FALSE,'Kylila',8,TRUE,'Dachshund',28,FALSE,TRUE,'None','Male',36,80,20);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,7,'3:54:57',TRUE,TRUE,TRUE,'Raimondo',6,FALSE,'German Shepherd',184,TRUE,FALSE,'None','Male',61,11,21);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,18,'12:09:13',FALSE,FALSE,FALSE,'Hewie',8,TRUE,'Yorkshire Terrier',41,FALSE,FALSE,'None','Male',20,19,22);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,24,'11:08:06',FALSE,FALSE,TRUE,'Lennie',3,FALSE,'Rottweiler',68,TRUE,TRUE,'None','Female',97,79,23);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,34,'3:19:04',TRUE,TRUE,FALSE,'Winslow',17,FALSE,'German Shorthaired Pointer',104,FALSE,TRUE,'None','Female',31,41,24);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,7,'10:05:53',FALSE,TRUE,TRUE,'Francisco',6,TRUE,'French Bulldog',36,TRUE,FALSE,'None','Male',99,36,25);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,11,'1:32:31',FALSE,FALSE,FALSE,'Shea',11,FALSE,'Yorkshire Terrier',19,TRUE,FALSE,'None','Female',32,22,26);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,32,'11:11:21',FALSE,TRUE,TRUE,'Trueman',8,FALSE,'Rottweiler',143,FALSE,FALSE,'None','Female',80,39,27);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,31,'12:09:38',FALSE,FALSE,FALSE,'Harriot',18,TRUE,'Labrador Retriever',219,TRUE,FALSE,'None','Female',95,96,28);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,3,'9:01:21',FALSE,FALSE,FALSE,'Bern',13,TRUE,'French Bulldog',225,TRUE,FALSE,'None','Male',98,1,29);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,11,'2:18:15',FALSE,TRUE,FALSE,'Lettie',14,FALSE,'Boxer',71,TRUE,TRUE,'None','Male',13,6,30);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,19,'10:53:37',FALSE,TRUE,TRUE,'Marty',6,FALSE,'Labrador Retriever',75,FALSE,FALSE,'None','Male',28,58,31);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,13,'1:38:39',FALSE,TRUE,FALSE,'Mellicent',16,FALSE,'German Shepherd',98,FALSE,TRUE,'None','Female',96,13,32);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,32,'4:14:10',FALSE,TRUE,TRUE,'Dorelle',12,TRUE,'Yorkshire Terrier',142,FALSE,TRUE,'None','Male',32,45,33);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,11,'12:05:04',TRUE,TRUE,TRUE,'Joelle',7,FALSE,'German Shepherd',205,TRUE,FALSE,'None','Male',92,88,34);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,32,'12:30:05',TRUE,TRUE,TRUE,'Myrah',9,FALSE,'Bulldog',196,TRUE,FALSE,'None','Male',60,69,35);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,12,'11:40:42',TRUE,TRUE,TRUE,'Kariotta',11,FALSE,'Poodle',81,TRUE,TRUE,'None','Female',52,10,36);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,15,'12:04:43',FALSE,FALSE,FALSE,'Griffin',7,FALSE,'Poodle',146,TRUE,TRUE,'None','Female',89,91,37);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,16,'9:19:58',FALSE,FALSE,FALSE,'Solly',5,TRUE,'Yorkshire Terrier',164,FALSE,TRUE,'None','Female',12,51,38);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,4,'4:40:16',FALSE,TRUE,FALSE,'Antonetta',5,FALSE,'Golden Retriver',156,TRUE,TRUE,'None','Female',67,12,39);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,5,'1:48:36',FALSE,TRUE,FALSE,'Claudius',1,FALSE,'Beagle',128,TRUE,TRUE,'None','Female',82,74,40);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,5,'12:21:33',FALSE,FALSE,FALSE,'Hazlett',10,TRUE,'Beagle',145,TRUE,FALSE,'None','Female',64,23,41);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,20,'11:14:22',FALSE,TRUE,FALSE,'Haydon',12,FALSE,'Dachshund',214,TRUE,FALSE,'None','Female',54,43,42);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,23,'10:54:45',TRUE,FALSE,TRUE,'Pascal',16,TRUE,'Yorkshire Terrier',45,TRUE,FALSE,'None','Female',7,50,43);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,32,'2:17:14',TRUE,FALSE,FALSE,'Dick',2,TRUE,'Yorkshire Terrier',44,TRUE,TRUE,'None','Male',43,98,44);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,6,'4:01:05',FALSE,TRUE,FALSE,'Nichole',8,TRUE,'Rottweiler',127,FALSE,FALSE,'None','Female',62,33,45);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,9,'9:05:11',TRUE,FALSE,FALSE,'Dorolisa',6,TRUE,'German Shepherd',80,FALSE,TRUE,'None','Female',42,27,46);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,2,'10:23:36',FALSE,TRUE,TRUE,'Brandice',15,FALSE,'Golden Retriver',109,FALSE,TRUE,'None','Male',63,62,47);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,21,'1:06:37',TRUE,TRUE,TRUE,'Anica',3,FALSE,'German Shorthaired Pointer',126,TRUE,FALSE,'None','Male',55,43,48);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,4,'4:46:52',TRUE,TRUE,TRUE,'Ingaborg',5,FALSE,'Bulldog',216,TRUE,TRUE,'None','Female',41,26,49);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,34,'3:56:14',TRUE,TRUE,TRUE,'Cristen',13,FALSE,'Dachshund',102,TRUE,TRUE,'None','Female',8,75,50);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,17,'12:54:07',TRUE,FALSE,TRUE,'Ilise',5,FALSE,'Labrador Retriever',70,TRUE,TRUE,'None','Male',52,77,51);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,20,'10:26:04',FALSE,TRUE,TRUE,'Fredrick',7,FALSE,'French Bulldog',31,FALSE,FALSE,'None','Female',9,97,52);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,19,'9:57:07',TRUE,FALSE,TRUE,'Ray',15,FALSE,'German Shorthaired Pointer',70,TRUE,TRUE,'None','Female',74,7,53);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,11,'10:24:40',FALSE,TRUE,FALSE,'Zora',16,FALSE,'Rottweiler',143,TRUE,FALSE,'None','Female',76,22,54);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,15,'12:02:14',TRUE,TRUE,TRUE,'Brianna',15,FALSE,'Yorkshire Terrier',89,FALSE,FALSE,'None','Female',29,60,55);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,14,'9:53:18',TRUE,TRUE,TRUE,'Larisa',15,TRUE,'Doberman Pinscher',133,FALSE,TRUE,'None','Female',97,1,56);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,33,'9:15:11',TRUE,FALSE,FALSE,'Corny',6,TRUE,'German Shorthaired Pointer',166,TRUE,TRUE,'None','Male',35,92,57);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,12,'10:18:52',FALSE,TRUE,FALSE,'Pip',13,TRUE,'French Bulldog',106,FALSE,FALSE,'None','Male',3,94,58);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,27,'3:00:10',TRUE,FALSE,FALSE,'Jesus',15,FALSE,'German Shepherd',219,FALSE,FALSE,'None','Male',78,31,59);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,31,'4:09:10',TRUE,TRUE,TRUE,'Esta',8,FALSE,'Dachshund',217,TRUE,FALSE,'None','Male',59,99,60);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,33,'4:47:17',TRUE,TRUE,TRUE,'Kory',8,FALSE,'Labrador Retriever',25,FALSE,FALSE,'None','Female',99,92,61);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,2,'9:41:13',FALSE,TRUE,FALSE,'Saunderson',5,TRUE,'Beagle',31,TRUE,TRUE,'None','Male',33,12,62);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,29,'10:41:49',FALSE,TRUE,TRUE,'Rakel',8,FALSE,'Golden Retriver',150,FALSE,TRUE,'None','Female',58,17,63);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,3,'4:30:26',TRUE,FALSE,TRUE,'Alvinia',17,TRUE,'Beagle',114,TRUE,FALSE,'None','Female',31,19,64);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,26,'4:51:41',FALSE,FALSE,TRUE,'Cly',12,TRUE,'Rottweiler',91,TRUE,TRUE,'None','Female',32,34,65);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,18,'2:35:14',FALSE,FALSE,FALSE,'Libbi',17,FALSE,'Dachshund',23,TRUE,TRUE,'None','Female',88,22,66);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,27,'3:53:15',TRUE,TRUE,FALSE,'Audre',18,FALSE,'Boxer',89,FALSE,FALSE,'None','Female',61,10,67);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,17,'11:55:09',FALSE,TRUE,TRUE,'Jaquelyn',1,TRUE,'German Shorthaired Pointer',197,FALSE,TRUE,'None','Female',5,64,68);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,11,'9:33:06',FALSE,TRUE,TRUE,'Papageno',1,TRUE,'Beagle',159,FALSE,FALSE,'None','Female',36,16,69);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,10,'2:07:00',FALSE,TRUE,TRUE,'Raoul',2,FALSE,'German Shorthaired Pointer',145,FALSE,FALSE,'None','Male',94,68,70);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,18,'4:48:04',FALSE,TRUE,FALSE,'Luise',7,TRUE,'Boxer',52,FALSE,TRUE,'None','Male',82,48,71);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,4,'11:22:18',FALSE,TRUE,TRUE,'Irene',1,FALSE,'Doberman Pinscher',106,TRUE,TRUE,'None','Female',80,97,72);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,18,'9:10:34',FALSE,TRUE,FALSE,'Jsandye',3,TRUE,'Doberman Pinscher',16,FALSE,TRUE,'None','Female',9,98,73);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,6,'9:42:39',TRUE,FALSE,FALSE,'Hope',17,TRUE,'Rottweiler',163,TRUE,TRUE,'None','Female',42,68,74);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,6,'4:39:54',FALSE,FALSE,FALSE,'Salvidor',15,FALSE,'Bulldog',66,TRUE,TRUE,'None','Male',53,10,75);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,23,'12:03:47',TRUE,FALSE,FALSE,'Jamison',13,TRUE,'Rottweiler',44,TRUE,TRUE,'None','Female',9,27,76);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'9:06:14',FALSE,FALSE,FALSE,'Christen',8,FALSE,'Rottweiler',91,TRUE,FALSE,'None','Male',74,91,77);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,11,'10:04:14',FALSE,FALSE,FALSE,'Trescha',6,FALSE,'German Shepherd',146,FALSE,TRUE,'None','Female',37,5,78);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,13,'4:16:17',TRUE,TRUE,FALSE,'Georgena',8,TRUE,'Doberman Pinscher',48,FALSE,FALSE,'None','Female',76,38,79);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,14,'9:16:42',FALSE,FALSE,TRUE,'Janaye',9,TRUE,'Yorkshire Terrier',112,FALSE,FALSE,'None','Male',93,75,80);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,34,'4:40:12',FALSE,TRUE,FALSE,'Mia',2,FALSE,'Poodle',54,TRUE,FALSE,'None','Male',54,66,81);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,29,'10:08:29',TRUE,FALSE,TRUE,'Arabella',17,TRUE,'German Shorthaired Pointer',133,TRUE,TRUE,'None','Male',77,31,82);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,35,'9:26:34',FALSE,FALSE,FALSE,'Sophia',16,TRUE,'Beagle',109,FALSE,TRUE,'None','Male',15,74,83);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,12,'4:22:54',FALSE,FALSE,FALSE,'Evelyn',9,FALSE,'Doberman Pinscher',196,FALSE,TRUE,'None','Female',83,49,84);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,14,'10:59:38',FALSE,TRUE,TRUE,'Quincy',13,FALSE,'Beagle',168,TRUE,FALSE,'None','Male',30,73,85);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,20,'3:03:56',FALSE,TRUE,FALSE,'Reine',16,TRUE,'Yorkshire Terrier',199,FALSE,TRUE,'None','Female',33,5,86);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,15,'4:44:54',TRUE,FALSE,FALSE,'Shantee',12,TRUE,'Doberman Pinscher',134,TRUE,TRUE,'None','Male',16,9,87);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,19,'1:14:53',TRUE,TRUE,TRUE,'Dot',15,TRUE,'Yorkshire Terrier',198,FALSE,TRUE,'None','Male',7,32,88);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,8,'11:46:37',FALSE,FALSE,TRUE,'Rurik',6,FALSE,'Yorkshire Terrier',17,FALSE,FALSE,'None','Male',82,53,89);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,10,'4:43:18',TRUE,TRUE,TRUE,'Helsa',18,TRUE,'Dachshund',84,TRUE,TRUE,'None','Male',55,100,90);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,32,'12:24:33',FALSE,TRUE,FALSE,'Jacintha',13,FALSE,'Golden Retriver',120,FALSE,TRUE,'None','Female',76,4,91);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,11,'1:21:28',FALSE,TRUE,TRUE,'Shelby',5,TRUE,'Dachshund',108,FALSE,FALSE,'None','Female',21,54,92);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,6,'10:31:41',TRUE,FALSE,TRUE,'Mildrid',11,FALSE,'Poodle',87,TRUE,FALSE,'None','Male',66,14,93);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,33,'12:24:23',TRUE,FALSE,FALSE,'Vernen',3,FALSE,'Labrador Retriever',179,FALSE,TRUE,'None','Female',56,92,94);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (4,23,'10:21:44',FALSE,FALSE,TRUE,'Rahal',1,TRUE,'Yorkshire Terrier',94,FALSE,FALSE,'None','Male',41,58,95);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (2,2,'12:01:44',TRUE,FALSE,TRUE,'Petronilla',16,FALSE,'Rottweiler',206,TRUE,FALSE,'None','Female',17,39,96);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (5,13,'10:10:40',FALSE,FALSE,TRUE,'Tonye',17,FALSE,'German Shepherd',118,TRUE,TRUE,'None','Female',71,25,97);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,29,'10:12:43',TRUE,TRUE,TRUE,'Shanie',5,TRUE,'Rottweiler',215,TRUE,FALSE,'None','Male',25,41,98);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (1,18,'12:22:26',FALSE,TRUE,TRUE,'Leroi',10,TRUE,'Beagle',62,TRUE,TRUE,'None','Male',16,38,99);
+INSERT INTO dog(location,walk_duration,group_play_time,need_food,need_clean,need_walk,name_dog,age,chip_status,breed,weight,housebroken,temperament,dietary_restriction,sex,caretaker_id,vet_id,dog_id) VALUES (3,30,'12:58:24',FALSE,FALSE,TRUE,'Guido',18,TRUE,'Golden Retriver',31,TRUE,FALSE,'None','Male',10,9,100);
 
 
 -- Inputting data for table 'cat'
 
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','TRUE','Russian Blue','FALSE','Layney','female',15,'FALSE','TRUE','None',15,68,63,1);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','TRUE','Ragdoll','TRUE','Pennie','female',5,'FALSE','TRUE','None',10,82,57,2);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','FALSE','Russian Blue','FALSE','Suzanna','female',1,'TRUE','FALSE','None',15,74,49,3);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','TRUE','Siamese','FALSE','Chev','female',23,'FALSE','FALSE','None',8,34,92,4);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','TRUE','Maine Coon','TRUE','Jesselyn','female',23,'TRUE','FALSE','None',9,45,40,5);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','TRUE','Maine Coon','TRUE','Valenka','male',18,'FALSE','TRUE','None',13,86,7,6);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','FALSE','Bengal','FALSE','Alberik','female',10,'TRUE','FALSE','None',15,39,11,7);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','TRUE','Bombay','FALSE','Corinna','male',4,'FALSE','TRUE','None',8,41,99,8);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'TRUE','TRUE','Bombay','TRUE','Cash','male',19,'FALSE','TRUE','None',9,81,86,9);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'TRUE','TRUE','American Shorthair','TRUE','Alfy','female',17,'FALSE','TRUE','None',11,51,31,10);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Domestic Longhair','FALSE','Aprilette','female',11,'TRUE','TRUE','None',8,68,79,11);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','FALSE','Bombay','TRUE','Concettina','male',18,'TRUE','TRUE','None',13,36,16,12);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'TRUE','FALSE','Ragdoll','TRUE','Trey','male',4,'TRUE','TRUE','None',9,43,97,13);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','FALSE','American Shorthair','TRUE','Felita','female',24,'TRUE','FALSE','None',9,76,73,14);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Domestic Longhair','TRUE','Carlynne','male',15,'TRUE','FALSE','None',12,91,49,15);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','TRUE','Siamese','FALSE','Andrey','female',9,'TRUE','FALSE','None',11,33,59,16);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','TRUE','Ragdoll','TRUE','Lynette','female',24,'FALSE','FALSE','None',10,60,6,17);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','FALSE','Domestic Longhair','FALSE','Dulcea','female',25,'TRUE','TRUE','None',10,81,13,18);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','FALSE','American Shorthair','FALSE','Englebert','male',25,'FALSE','TRUE','None',13,27,48,19);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'TRUE','TRUE','American Shorthair','TRUE','Othella','female',24,'FALSE','TRUE','None',10,93,85,20);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Persian','FALSE','Dione','female',15,'FALSE','FALSE','None',8,78,92,21);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','Bombay','FALSE','Dorise','female',11,'TRUE','FALSE','None',14,39,61,22);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','Ragdoll','FALSE','Corri','female',17,'TRUE','FALSE','None',15,90,28,23);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','FALSE','Domestic Longhair','FALSE','Jermain','female',19,'TRUE','TRUE','None',13,96,15,24);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','TRUE','Domestic Longhair','FALSE','Fidole','female',18,'FALSE','FALSE','None',12,99,86,25);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','TRUE','American Shorthair','FALSE','Viviana','male',11,'FALSE','TRUE','None',9,55,47,26);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','TRUE','Bengal','FALSE','Khalil','female',22,'FALSE','TRUE','None',9,76,72,27);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','TRUE','Persian','TRUE','Evania','male',2,'TRUE','TRUE','None',9,19,36,28);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','TRUE','Siamese','TRUE','Glenine','male',12,'TRUE','TRUE','None',14,15,68,29);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','TRUE','Bombay','TRUE','Morey','female',13,'TRUE','TRUE','None',13,70,56,30);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','FALSE','Russian Blue','TRUE','Gerome','male',1,'TRUE','TRUE','None',9,11,52,31);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'FALSE','FALSE','Domestic Shorthair','FALSE','Hazlett','male',1,'FALSE','TRUE','None',14,100,78,32);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','FALSE','Domestic Longhair','TRUE','Moe','male',12,'TRUE','FALSE','None',12,88,30,33);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','TRUE','American Shorthair','FALSE','Constancy','female',17,'FALSE','FALSE','None',15,24,85,34);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'FALSE','TRUE','Persian','FALSE','Oswell','female',19,'TRUE','FALSE','None',12,46,18,35);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','FALSE','Bombay','TRUE','Donall','female',7,'TRUE','FALSE','None',14,55,88,36);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','FALSE','Maine Coon','FALSE','Ford','male',20,'TRUE','TRUE','None',10,12,40,37);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','TRUE','Domestic Shorthair','FALSE','Mollee','male',4,'FALSE','TRUE','None',14,74,55,38);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','FALSE','Domestic Shorthair','FALSE','Gennie','male',19,'FALSE','FALSE','None',12,73,41,39);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','TRUE','Siamese','TRUE','Howie','male',15,'TRUE','TRUE','None',9,29,80,40);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','FALSE','Domestic Shorthair','FALSE','Janot','female',9,'FALSE','FALSE','None',12,36,68,41);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','TRUE','Maine Coon','TRUE','Stephani','male',24,'TRUE','FALSE','None',10,58,96,42);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','TRUE','Russian Blue','TRUE','Cherry','male',24,'TRUE','FALSE','None',15,42,88,43);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','FALSE','Domestic Longhair','FALSE','Christine','male',10,'TRUE','TRUE','None',9,38,77,44);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','TRUE','Maine Coon','TRUE','Cari','female',11,'FALSE','FALSE','None',15,39,11,45);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Russian Blue','FALSE','Annice','female',12,'TRUE','TRUE','None',15,80,88,46);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','Russian Blue','TRUE','Helli','male',14,'TRUE','FALSE','None',15,4,31,47);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','FALSE','Ragdoll','FALSE','Steffane','female',19,'TRUE','TRUE','None',15,17,91,48);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','FALSE','Bengal','FALSE','Brook','male',12,'TRUE','TRUE','None',15,98,75,49);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','American Shorthair','TRUE','Kizzie','female',2,'FALSE','FALSE','None',15,73,6,50);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','FALSE','Domestic Longhair','TRUE','Adriano','male',19,'FALSE','FALSE','None',13,12,38,51);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','Persian','FALSE','Cate','female',17,'TRUE','TRUE','None',15,57,5,52);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','FALSE','Persian','TRUE','Ingeborg','female',10,'TRUE','FALSE','None',15,50,64,53);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','TRUE','Domestic Longhair','TRUE','Mandie','female',6,'TRUE','FALSE','None',13,46,6,54);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','TRUE','Persian','FALSE','Tisha','female',15,'FALSE','FALSE','None',10,52,91,55);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','TRUE','Persian','TRUE','Shanon','male',14,'FALSE','TRUE','None',13,82,93,56);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','FALSE','Bombay','TRUE','Arman','male',14,'FALSE','FALSE','None',10,100,33,57);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','FALSE','Persian','TRUE','Maurise','male',15,'FALSE','TRUE','None',9,37,44,58);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','FALSE','American Shorthair','TRUE','Cory','female',21,'TRUE','FALSE','None',12,24,36,59);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','TRUE','Ragdoll','TRUE','Rolf','female',14,'FALSE','FALSE','None',10,85,21,60);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Bombay','TRUE','Cristionna','male',11,'TRUE','FALSE','None',14,49,44,61);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','TRUE','Domestic Shorthair','FALSE','Ashlee','female',11,'FALSE','TRUE','None',9,13,10,62);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','TRUE','Persian','TRUE','Silvie','female',17,'TRUE','FALSE','None',9,35,85,63);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Persian','FALSE','Cara','female',19,'TRUE','FALSE','None',14,14,42,64);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'TRUE','TRUE','Russian Blue','TRUE','Agnella','female',11,'FALSE','TRUE','None',12,84,49,65);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'FALSE','TRUE','Domestic Longhair','TRUE','Adolpho','male',6,'TRUE','TRUE','None',9,80,38,66);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'TRUE','TRUE','Bombay','TRUE','Martita','female',23,'TRUE','TRUE','None',9,68,83,67);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Russian Blue','FALSE','Obadias','male',22,'TRUE','FALSE','None',9,18,57,68);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Bengal','TRUE','Maryl','male',6,'TRUE','FALSE','None',11,88,15,69);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'TRUE','FALSE','Bombay','FALSE','Lyndel','female',19,'FALSE','TRUE','None',9,52,40,70);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','FALSE','Bengal','TRUE','Nora','male',11,'FALSE','FALSE','None',15,64,2,71);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'TRUE','TRUE','Bombay','TRUE','Ynez','male',14,'TRUE','FALSE','None',11,24,54,72);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'FALSE','FALSE','Persian','FALSE','Cleavland','male',16,'TRUE','FALSE','None',15,19,50,73);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','FALSE','Siamese','TRUE','Eolande','male',9,'TRUE','FALSE','None',8,44,57,74);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','FALSE','Domestic Longhair','FALSE','Lucas','female',22,'TRUE','TRUE','None',15,93,97,75);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'TRUE','TRUE','Persian','FALSE','Lusa','male',9,'TRUE','FALSE','None',8,22,66,76);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Maine Coon','TRUE','Dori','female',19,'FALSE','TRUE','None',8,28,47,77);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','FALSE','Bengal','TRUE','Duane','male',7,'TRUE','TRUE','None',14,86,50,78);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','FALSE','Ragdoll','FALSE','Lorianna','male',8,'FALSE','TRUE','None',14,78,78,79);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','FALSE','Persian','TRUE','Wyn','female',15,'FALSE','TRUE','None',9,90,98,80);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'FALSE','TRUE','Russian Blue','TRUE','Ada','male',22,'TRUE','TRUE','None',10,89,22,81);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'TRUE','TRUE','Domestic Longhair','FALSE','Austina','male',21,'TRUE','TRUE','None',15,94,36,82);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','Siamese','TRUE','Adelice','male',9,'TRUE','TRUE','None',8,63,34,83);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','TRUE','Ragdoll','TRUE','Jarrid','female',15,'FALSE','FALSE','None',10,4,65,84);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'TRUE','FALSE','Russian Blue','TRUE','Les','female',8,'FALSE','TRUE','None',11,74,12,85);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','Maine Coon','TRUE','Jaime','female',23,'TRUE','TRUE','None',15,53,23,86);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','TRUE','Bombay','TRUE','Kevin','female',6,'TRUE','TRUE','None',15,48,19,87);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'TRUE','TRUE','Bombay','FALSE','Loree','female',18,'FALSE','FALSE','None',14,65,81,88);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','TRUE','Siamese','TRUE','Gert','male',21,'TRUE','FALSE','None',9,67,56,89);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','FALSE','Ragdoll','TRUE','Quintilla','male',21,'TRUE','TRUE','None',11,2,58,90);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','TRUE','Persian','TRUE','Terrill','female',8,'TRUE','FALSE','None',13,46,3,91);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'TRUE','TRUE','Bombay','TRUE','Emili','male',10,'FALSE','FALSE','None',15,97,63,92);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,'TRUE','FALSE','American Shorthair','TRUE','Joannes','female',1,'TRUE','FALSE','None',12,34,22,93);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','Domestic Shorthair','TRUE','Chuck','female',20,'FALSE','TRUE','None',9,74,32,94);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','FALSE','Persian','TRUE','Lurleen','male',20,'TRUE','TRUE','None',8,47,28,95);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'FALSE','FALSE','Bengal','FALSE','Perkin','female',23,'FALSE','FALSE','None',8,36,41,96);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,'FALSE','TRUE','Russian Blue','FALSE','Adam','male',3,'FALSE','TRUE','None',15,48,1,97);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,'TRUE','TRUE','Ragdoll','FALSE','Rosie','female',19,'TRUE','TRUE','None',13,65,11,98);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,'FALSE','FALSE','Siamese','FALSE','Maggee','female',10,'FALSE','TRUE','None',11,99,65,99);
-INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,'FALSE','FALSE','Persian','FALSE','Imelda','female',5,'TRUE','TRUE','None',9,1,83,100);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,TRUE,'Russian Blue',FALSE,'Layney','female',15,FALSE,TRUE,'None',15,68,63,1);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,TRUE,'Ragdoll',TRUE,'Pennie','female',5,FALSE,TRUE,'None',10,82,57,2);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,FALSE,'Russian Blue',FALSE,'Suzanna','female',1,TRUE,FALSE,'None',15,74,49,3);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,TRUE,'Siamese',FALSE,'Chev','female',23,FALSE,FALSE,'None',8,34,92,4);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,TRUE,'Maine Coon',TRUE,'Jesselyn','female',23,TRUE,FALSE,'None',9,45,40,5);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,TRUE,'Maine Coon',TRUE,'Valenka','male',18,FALSE,TRUE,'None',13,86,7,6);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,FALSE,'Bengal',FALSE,'Alberik','female',10,TRUE,FALSE,'None',15,39,11,7);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,TRUE,'Bombay',FALSE,'Corinna','male',4,FALSE,TRUE,'None',8,41,99,8);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,TRUE,TRUE,'Bombay',TRUE,'Cash','male',19,FALSE,TRUE,'None',9,81,86,9);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,TRUE,TRUE,'American Shorthair',TRUE,'Alfy','female',17,FALSE,TRUE,'None',11,51,31,10);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Domestic Longhair',FALSE,'Aprilette','female',11,TRUE,TRUE,'None',8,68,79,11);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,FALSE,'Bombay',TRUE,'Concettina','male',18,TRUE,TRUE,'None',13,36,16,12);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,TRUE,FALSE,'Ragdoll',TRUE,'Trey','male',4,TRUE,TRUE,'None',9,43,97,13);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,FALSE,'American Shorthair',TRUE,'Felita','female',24,TRUE,FALSE,'None',9,76,73,14);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Domestic Longhair',TRUE,'Carlynne','male',15,TRUE,FALSE,'None',12,91,49,15);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,TRUE,'Siamese',FALSE,'Andrey','female',9,TRUE,FALSE,'None',11,33,59,16);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,TRUE,'Ragdoll',TRUE,'Lynette','female',24,FALSE,FALSE,'None',10,60,6,17);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,FALSE,'Domestic Longhair',FALSE,'Dulcea','female',25,TRUE,TRUE,'None',10,81,13,18);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,FALSE,'American Shorthair',FALSE,'Englebert','male',25,FALSE,TRUE,'None',13,27,48,19);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,TRUE,TRUE,'American Shorthair',TRUE,'Othella','female',24,FALSE,TRUE,'None',10,93,85,20);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Persian',FALSE,'Dione','female',15,FALSE,FALSE,'None',8,78,92,21);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'Bombay',FALSE,'Dorise','female',11,TRUE,FALSE,'None',14,39,61,22);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'Ragdoll',FALSE,'Corri','female',17,TRUE,FALSE,'None',15,90,28,23);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,FALSE,'Domestic Longhair',FALSE,'Jermain','female',19,TRUE,TRUE,'None',13,96,15,24);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,TRUE,'Domestic Longhair',FALSE,'Fidole','female',18,FALSE,FALSE,'None',12,99,86,25);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,TRUE,'American Shorthair',FALSE,'Viviana','male',11,FALSE,TRUE,'None',9,55,47,26);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,TRUE,'Bengal',FALSE,'Khalil','female',22,FALSE,TRUE,'None',9,76,72,27);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,TRUE,'Persian',TRUE,'Evania','male',2,TRUE,TRUE,'None',9,19,36,28);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,TRUE,'Siamese',TRUE,'Glenine','male',12,TRUE,TRUE,'None',14,15,68,29);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,TRUE,'Bombay',TRUE,'Morey','female',13,TRUE,TRUE,'None',13,70,56,30);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,FALSE,'Russian Blue',TRUE,'Gerome','male',1,TRUE,TRUE,'None',9,11,52,31);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,FALSE,FALSE,'Domestic Shorthair',FALSE,'Hazlett','male',1,FALSE,TRUE,'None',14,100,78,32);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,FALSE,'Domestic Longhair',TRUE,'Moe','male',12,TRUE,FALSE,'None',12,88,30,33);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,TRUE,'American Shorthair',FALSE,'Constancy','female',17,FALSE,FALSE,'None',15,24,85,34);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,FALSE,TRUE,'Persian',FALSE,'Oswell','female',19,TRUE,FALSE,'None',12,46,18,35);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,FALSE,'Bombay',TRUE,'Donall','female',7,TRUE,FALSE,'None',14,55,88,36);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,FALSE,'Maine Coon',FALSE,'Ford','male',20,TRUE,TRUE,'None',10,12,40,37);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,TRUE,'Domestic Shorthair',FALSE,'Mollee','male',4,FALSE,TRUE,'None',14,74,55,38);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,FALSE,'Domestic Shorthair',FALSE,'Gennie','male',19,FALSE,FALSE,'None',12,73,41,39);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,TRUE,'Siamese',TRUE,'Howie','male',15,TRUE,TRUE,'None',9,29,80,40);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,FALSE,'Domestic Shorthair',FALSE,'Janot','female',9,FALSE,FALSE,'None',12,36,68,41);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,TRUE,'Maine Coon',TRUE,'Stephani','male',24,TRUE,FALSE,'None',10,58,96,42);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,TRUE,'Russian Blue',TRUE,'Cherry','male',24,TRUE,FALSE,'None',15,42,88,43);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,FALSE,'Domestic Longhair',FALSE,'Christine','male',10,TRUE,TRUE,'None',9,38,77,44);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,TRUE,'Maine Coon',TRUE,'Cari','female',11,FALSE,FALSE,'None',15,39,11,45);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Russian Blue',FALSE,'Annice','female',12,TRUE,TRUE,'None',15,80,88,46);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'Russian Blue',TRUE,'Helli','male',14,TRUE,FALSE,'None',15,4,31,47);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,FALSE,'Ragdoll',FALSE,'Steffane','female',19,TRUE,TRUE,'None',15,17,91,48);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,FALSE,'Bengal',FALSE,'Brook','male',12,TRUE,TRUE,'None',15,98,75,49);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'American Shorthair',TRUE,'Kizzie','female',2,FALSE,FALSE,'None',15,73,6,50);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,FALSE,'Domestic Longhair',TRUE,'Adriano','male',19,FALSE,FALSE,'None',13,12,38,51);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'Persian',FALSE,'Cate','female',17,TRUE,TRUE,'None',15,57,5,52);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,FALSE,'Persian',TRUE,'Ingeborg','female',10,TRUE,FALSE,'None',15,50,64,53);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,TRUE,'Domestic Longhair',TRUE,'Mandie','female',6,TRUE,FALSE,'None',13,46,6,54);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,TRUE,'Persian',FALSE,'Tisha','female',15,FALSE,FALSE,'None',10,52,91,55);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,TRUE,'Persian',TRUE,'Shanon','male',14,FALSE,TRUE,'None',13,82,93,56);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,FALSE,'Bombay',TRUE,'Arman','male',14,FALSE,FALSE,'None',10,100,33,57);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,FALSE,'Persian',TRUE,'Maurise','male',15,FALSE,TRUE,'None',9,37,44,58);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,FALSE,'American Shorthair',TRUE,'Cory','female',21,TRUE,FALSE,'None',12,24,36,59);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,TRUE,'Ragdoll',TRUE,'Rolf','female',14,FALSE,FALSE,'None',10,85,21,60);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Bombay',TRUE,'Cristionna','male',11,TRUE,FALSE,'None',14,49,44,61);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,TRUE,'Domestic Shorthair',FALSE,'Ashlee','female',11,FALSE,TRUE,'None',9,13,10,62);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,TRUE,'Persian',TRUE,'Silvie','female',17,TRUE,FALSE,'None',9,35,85,63);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Persian',FALSE,'Cara','female',19,TRUE,FALSE,'None',14,14,42,64);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,TRUE,TRUE,'Russian Blue',TRUE,'Agnella','female',11,FALSE,TRUE,'None',12,84,49,65);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,FALSE,TRUE,'Domestic Longhair',TRUE,'Adolpho','male',6,TRUE,TRUE,'None',9,80,38,66);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,TRUE,TRUE,'Bombay',TRUE,'Martita','female',23,TRUE,TRUE,'None',9,68,83,67);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Russian Blue',FALSE,'Obadias','male',22,TRUE,FALSE,'None',9,18,57,68);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Bengal',TRUE,'Maryl','male',6,TRUE,FALSE,'None',11,88,15,69);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,TRUE,FALSE,'Bombay',FALSE,'Lyndel','female',19,FALSE,TRUE,'None',9,52,40,70);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,FALSE,'Bengal',TRUE,'Nora','male',11,FALSE,FALSE,'None',15,64,2,71);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,TRUE,TRUE,'Bombay',TRUE,'Ynez','male',14,TRUE,FALSE,'None',11,24,54,72);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,FALSE,FALSE,'Persian',FALSE,'Cleavland','male',16,TRUE,FALSE,'None',15,19,50,73);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,FALSE,'Siamese',TRUE,'Eolande','male',9,TRUE,FALSE,'None',8,44,57,74);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,FALSE,'Domestic Longhair',FALSE,'Lucas','female',22,TRUE,TRUE,'None',15,93,97,75);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,TRUE,TRUE,'Persian',FALSE,'Lusa','male',9,TRUE,FALSE,'None',8,22,66,76);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Maine Coon',TRUE,'Dori','female',19,FALSE,TRUE,'None',8,28,47,77);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,FALSE,'Bengal',TRUE,'Duane','male',7,TRUE,TRUE,'None',14,86,50,78);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,FALSE,'Ragdoll',FALSE,'Lorianna','male',8,FALSE,TRUE,'None',14,78,78,79);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,FALSE,'Persian',TRUE,'Wyn','female',15,FALSE,TRUE,'None',9,90,98,80);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,FALSE,TRUE,'Russian Blue',TRUE,'Ada','male',22,TRUE,TRUE,'None',10,89,22,81);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,TRUE,TRUE,'Domestic Longhair',FALSE,'Austina','male',21,TRUE,TRUE,'None',15,94,36,82);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'Siamese',TRUE,'Adelice','male',9,TRUE,TRUE,'None',8,63,34,83);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,TRUE,'Ragdoll',TRUE,'Jarrid','female',15,FALSE,FALSE,'None',10,4,65,84);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,TRUE,FALSE,'Russian Blue',TRUE,'Les','female',8,FALSE,TRUE,'None',11,74,12,85);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'Maine Coon',TRUE,'Jaime','female',23,TRUE,TRUE,'None',15,53,23,86);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,TRUE,'Bombay',TRUE,'Kevin','female',6,TRUE,TRUE,'None',15,48,19,87);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,TRUE,TRUE,'Bombay',FALSE,'Loree','female',18,FALSE,FALSE,'None',14,65,81,88);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,TRUE,'Siamese',TRUE,'Gert','male',21,TRUE,FALSE,'None',9,67,56,89);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,FALSE,'Ragdoll',TRUE,'Quintilla','male',21,TRUE,TRUE,'None',11,2,58,90);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,TRUE,'Persian',TRUE,'Terrill','female',8,TRUE,FALSE,'None',13,46,3,91);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,TRUE,TRUE,'Bombay',TRUE,'Emili','male',10,FALSE,FALSE,'None',15,97,63,92);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (2,TRUE,FALSE,'American Shorthair',TRUE,'Joannes','female',1,TRUE,FALSE,'None',12,34,22,93);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'Domestic Shorthair',TRUE,'Chuck','female',20,FALSE,TRUE,'None',9,74,32,94);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,FALSE,'Persian',TRUE,'Lurleen','male',20,TRUE,TRUE,'None',8,47,28,95);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,FALSE,FALSE,'Bengal',FALSE,'Perkin','female',23,FALSE,FALSE,'None',8,36,41,96);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (3,FALSE,TRUE,'Russian Blue',FALSE,'Adam','male',3,FALSE,TRUE,'None',15,48,1,97);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (5,TRUE,TRUE,'Ragdoll',FALSE,'Rosie','female',19,TRUE,TRUE,'None',13,65,11,98);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (4,FALSE,FALSE,'Siamese',FALSE,'Maggee','female',10,FALSE,TRUE,'None',11,99,65,99);
+INSERT INTO cat(location,need_food,need_liter_cleaning,breed,chip_status,name_cat,sex,age,neutered,temperament,dietary_restrictions,weight,caretaker_id,vet_id,catID) VALUES (1,FALSE,FALSE,'Persian',FALSE,'Imelda','female',5,TRUE,TRUE,'None',9,1,83,100);
 
 
 -- Inputting data for table 'veterinaryNurse'
