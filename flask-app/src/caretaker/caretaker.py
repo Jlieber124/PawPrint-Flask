@@ -121,6 +121,22 @@ def update_catfood(id):
     return "success"
 
 # update an cat's need food status
+@caretaker.route('/updateCat/<id>', methods=['PUT'])
+def update_catfood(id):
+    the_data = request.json
+    need_food = the_data['need_food']
+    need_litter = the_data['need_litter_cleaning']
+    
+    the_query = "update cat "
+    the_query += "set need_food = " + str(need_food)
+    the_query += " , need_litter_cleaning = " + str(need_litter)
+    the_query += " where catID = {0}".format(id)
+    cursor = db.get_db().cursor()
+    cursor.execute(the_query)
+    db.get_db().commit()
+    return "success"
+
+# update an cat's need food status
 @caretaker.route('/need_litter/<id>', methods=['PUT'])
 def update_litter(id):
     the_data = request.json
