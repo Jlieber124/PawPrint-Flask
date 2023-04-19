@@ -109,7 +109,7 @@ def delete_item(id):
 def get_low_items():
     cursor = db.get_db().cursor()
     cursor.execute(
-        'select item_id, brand, quantity \
+        'select item_id, brand, quantity, item_category \
         from AnimalInventory \
         where quantity <= 3'
         )
@@ -121,14 +121,34 @@ def get_low_items():
     
     return jsonify(json_data)
 
-# Get a list of categories supported by a specific brand in stock
-@operations.route('/brand_categories/<brand>', methods=['GET'])
-def get_recent_items(brand):
+# Get a list of brands in stock for this item category
+@operations.route('/brand_categories/<item_cat>', methods=['GET'])
+def get_recent_items(item_cat):
+    if (item_cat == '1'):
+        category = 'Cat Food'
+    elif (item_cat == '2'):
+        category = 'Cat Toy'
+    elif (item_cat == '3'):
+        category = 'Cat Treat'
+    elif (item_cat == '4'):
+        category = 'Dog Food'
+    elif (item_cat == '5'):
+        category = 'Dog Toy'
+    elif (item_cat == '6'):
+        category = 'Dog Treat'
+    elif (item_cat == '7'):
+        category = 'Leash'
+    elif (item_cat == '8'):
+        category = 'Litter Box'
+    else:
+        category = 'Poop Bag'
+    
     cursor = db.get_db().cursor()
     cursor.execute(
-        'select distinct item_category, brand \
+        'select distinct brand, sum(quantity) as count \
         from AnimalInventory \
-        where brand = "' + brand + '"'
+        where item_category = "' + category + '" \
+        group by brand'
         )
     row_headers = [x[0] for x in cursor.description]
     json_data = []
@@ -143,9 +163,10 @@ def get_recent_items(brand):
 def get_items_per_category():
     cursor = db.get_db().cursor()
     cursor.execute(
-        'select distinct category, sum(quantity) \
+        'select distinct item_category, sum(quantity) as count \
         from AnimalInventory \
-        group by category'
+        group by item_category \
+        order by item_category'
         )
     row_headers = [x[0] for x in cursor.description]
     json_data = []
