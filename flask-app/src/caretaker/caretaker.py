@@ -4,6 +4,34 @@ from src import db
 
 caretaker = Blueprint('caretaker', __name__) 
 
+# get all dogs
+@caretaker.route('/all_dog', methods=['GET'])
+def get_allDog():
+    cursor = db.get_db().cursor()
+    query = 'select * \
+            from dog'
+    cursor.execute(query)
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    return jsonify(json_data)
+
+# get all cats
+@caretaker.route('/all_cat', methods=['GET'])
+def get_allCat():
+    cursor = db.get_db().cursor()
+    query = 'select * \
+            from cat'
+    cursor.execute(query)
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    return jsonify(json_data)
+
 # get all of a particular dog's information
 @caretaker.route('/dog/<id>', methods=['GET'])
 def get_dog(id):
@@ -18,6 +46,7 @@ def get_dog(id):
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
+
 
 # get all of a particular cat's information
 @caretaker.route('/cat/<id>', methods=['GET'])
@@ -78,6 +107,24 @@ def update_dogfood(id):
     db.get_db().commit()
     return "success"
 
+# update an dog's need food status
+@caretaker.route('/updateDog/<id>', methods=['PUT'])
+def update_dog(id):
+    the_data = request.json
+    need_food = the_data['need_food']
+    need_clean = the_data['need_clean']
+    need_walk = the_data['need_walk']
+    
+    the_query = "update dog "
+    the_query += "set need_food = " + str(need_food)
+    the_query += ", need_clean = " + str(need_clean)
+    the_query += ", need_walk = " + str(need_walk)
+    the_query += " where dog_id = {0}".format(id)
+    cursor = db.get_db().cursor()
+    cursor.execute(the_query)
+    db.get_db().commit()
+    return "success"
+
 # update an dog's need clean status
 @caretaker.route('/need_clean/<id>', methods=['PUT'])
 def update_clean(id):
@@ -119,6 +166,23 @@ def update_catfood(id):
     cursor.execute(the_query)
     db.get_db().commit()
     return "success"
+
+# update a cat's need status
+@caretaker.route('/updateCat/<id>', methods=['PUT'])
+def update_cat(id):
+    the_data = request.json
+    need_litter = the_data['need_litter_cleaning']
+    need_food = the_data['need_food']
+    
+    the_query = "update cat "
+    the_query += "set need_litter_cleaning = " + str(need_litter)
+    the_query += ", need_food = " + str(need_food)
+    the_query += " where catID = {0}".format(id)
+    cursor = db.get_db().cursor()
+    cursor.execute(the_query)
+    db.get_db().commit()
+    return "success"
+
 
 # update an cat's need food status
 @caretaker.route('/need_litter/<id>', methods=['PUT'])
