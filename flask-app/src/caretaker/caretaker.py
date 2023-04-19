@@ -8,9 +8,8 @@ caretaker = Blueprint('caretaker', __name__)
 @caretaker.route('/dog/<id>', methods=['GET'])
 def get_dog(id):
     cursor = db.get_db().cursor()
-    query = 'select dog_id \
-            from dog \
-            where dogID = {0}'.format(id)
+    query = 'select dog.dog_id \
+            from dog'.format(id)
     cursor.execute(query)
     column_headers = [x[0] for x in cursor.description]
     json_data = []
