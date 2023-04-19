@@ -8,8 +8,9 @@ caretaker = Blueprint('caretaker', __name__)
 @caretaker.route('/dog/<id>', methods=['GET'])
 def get_dog(id):
     cursor = db.get_db().cursor()
-    query = 'select dog.dog_id \
-            from dog'.format(id)
+    query = 'select * \
+            from dog \
+            where dog_id = {0}'.format(id)
     cursor.execute(query)
     column_headers = [x[0] for x in cursor.description]
     json_data = []
@@ -22,8 +23,9 @@ def get_dog(id):
 @caretaker.route('/cat/<id>', methods=['GET'])
 def get_cat(id):
     cursor = db.get_db().cursor()
-    query = 'select cat.catID \
-        from cat'.format(id)
+    query = 'select * \
+            from cat \
+            where catID = {0}'.format(id)
     cursor.execute(query)
     column_headers = [x[0] for x in cursor.description]
     json_data = []
@@ -32,14 +34,28 @@ def get_cat(id):
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
-# get all animals that need any kind of care
-@caretaker.route('/needCare', methods=['GET'])
-def get_care():
+# get all dogs that need any kind of care
+@caretaker.route('/need_dogcare', methods=['GET'])
+def get_dogcare():
     cursor = db.get_db().cursor()
-    query = 'select dog.need_food, need_walk, need_clean, cat.need_food, need_liter_cleaning \
-            from dog natural join cat \
-            where cat.need_food = True OR dog.need_food = True OR need_walk = True OR \
-                  need_clean = True OR need_liter_cleaning = True'
+    query = 'select name_dog, dog_id, need_food, need_walk, need_clean \
+            from dog \
+            where need_food = TRUE OR need_walk = TRUE OR need_clean = TRUE'
+    cursor.execute(query)
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    return jsonify(json_data)
+
+# get all cats that need any kind of care
+@caretaker.route('/need_catcare', methods=['GET'])
+def get_catcare():
+    cursor = db.get_db().cursor()
+    query = 'select name_cat, catID, need_food, need_litter_cleaning \
+            from cat \
+            where need_food = TRUE OR need_litter_cleaning = TRUE'
     cursor.execute(query)
     column_headers = [x[0] for x in cursor.description]
     json_data = []
@@ -54,9 +70,9 @@ def update_dogfood(id):
     the_data = request.json
     need_food = the_data['need_food']
     
-    the_query = "update Dog "
-    the_query += "set need_food = '" + need_food + "' "
-    the_query += "where dogID = {0}".format(id)
+    the_query = "update dog "
+    the_query += "set need_food = " + str(need_food)
+    the_query += " where dog_id = {0}".format(id)
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
     db.get_db().commit()
@@ -68,9 +84,9 @@ def update_clean(id):
     the_data = request.json
     need_clean = the_data['need_clean']
     
-    the_query = "update Dog "
-    the_query += "set need_clean = '" + need_clean + "' "
-    the_query += "where dogID = {0}".format(id)
+    the_query = "update dog "
+    the_query += "set need_clean = " + str(need_clean)
+    the_query += " where dog_id = {0}".format(id)
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
     db.get_db().commit()
@@ -82,9 +98,9 @@ def update_walk(id):
     the_data = request.json
     need_walk = the_data['need_walk']
     
-    the_query = "update Dog "
-    the_query += "set need_walk = '" + need_walk + "' "
-    the_query += "where dogID = {0}".format(id)
+    the_query = "update dog "
+    the_query += "set need_walk = " + str(need_walk)
+    the_query += " where dog_id = {0}".format(id)
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
     db.get_db().commit()
@@ -96,9 +112,9 @@ def update_catfood(id):
     the_data = request.json
     need_food = the_data['need_food']
     
-    the_query = "update Cat "
-    the_query += "set need_food = '" + need_food + "' "
-    the_query += "where catID = {0}".format(id)
+    the_query = "update cat "
+    the_query += "set need_food = " + str(need_food)
+    the_query += " where catID = {0}".format(id)
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
     db.get_db().commit()
@@ -110,9 +126,9 @@ def update_litter(id):
     the_data = request.json
     need_litter = the_data['need_litter_cleaning']
     
-    the_query = "update Cat "
-    the_query += "set need_litter_cleaning = '" + need_litter + "' "
-    the_query += "where catID = {0}".format(id)
+    the_query = "update cat "
+    the_query += "set need_litter_cleaning = " + str(need_litter)
+    the_query += " where catID = {0}".format(id)
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
     db.get_db().commit()
@@ -136,7 +152,7 @@ def adopt_cat(id):
     cursor = db.get_db().cursor()
     cursor.execute(
         'delete from cat \
-        where id = {0}'.format(id)
+        where catID = {0}'.format(id)
         )
     db.get_db().commit()
     
@@ -151,11 +167,11 @@ def add_caretaker():
     phone_num = the_data['phone_number']
     work_email = the_data['work_email']
     years_exp = the_data['experience']
-    animal_spec = the_data['animal_speciality']
-    coord_id = 0  # assigned later
+    animal_spec = the_data['animal_specialty']
+    coord_id = the_data['coordinator_id']
     caretaker_id = 0  # assigned later
     
-    the_query = "insert into CaretakerVolunteer (first_name, last_name, phone_number, work_email, experience, animal_speciality, coordinator_id, caretaker_id) "
+    the_query = "insert into CaretakerVolunteer (work_email, experience, first_name, last_name, phone_number, animal_specialty, coordinator_id, caretaker_id) "
     the_query += "values ('" + work_email + "', " + str(years_exp) + ", '" + f_name + "', '" + l_name + "', '" + phone_num + "', '" + animal_spec + "', " + str(coord_id) + ", " + str(caretaker_id) + ")"
     # execute query
     cursor = db.get_db().cursor()
