@@ -1316,16 +1316,16 @@ INSERT INTO supplier(first_name,last_name,service_rep_email,service_rep_phone_nu
 
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',32,'Dog Food','11/8/2022',53,1);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Happy Pet',6,'Litter box','12/11/2022',19,2);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',32,'Poop bags','4/26/2022',27,3);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',32,'Poop Bag','4/26/2022',27,3);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Wholesale Pet',48,'Cat Food','4/25/2022',52,4);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',44,'Poop bags','3/7/2023',35,5);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',44,'Poop Bag','3/7/2023',35,5);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Happy Pet',6,'Dog Toys','12/8/2022',44,6);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Happy Pet',24,'Cat Food','9/14/2022',52,7);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',11,'Poop bags','5/7/2022',53,8);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',11,'Poop Bag','5/7/2022',53,8);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Happy Pet',30,'Cat Food','5/21/2022',6,9);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',35,'Poop bags','2/10/2023',66,10);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',35,'Poop Bag','2/10/2023',66,10);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',22,'Cat Toys','9/5/2022',35,11);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',2,'Poop bags','6/17/2022',12,12);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',2,'Poop Bag','6/17/2022',12,12);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',73,'Cat Treats','7/28/2022',64,13);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',23,'Dog Toys','8/17/2022',51,14);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Wholesale Pet',36,'Cat Treats','5/7/2022',16,15);
@@ -1339,10 +1339,10 @@ INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Wholesale Pet',46,'Cat Food','11/29/2022',74,23);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',0,'Cat Toys','7/24/2022',58,24);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Happy Pet',19,'Cat Food','8/12/2022',50,25);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',88,'Poop bags','1/12/2023',20,26);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',88,'Poop Bag','1/12/2023',20,26);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',27,'Dog Toys','4/23/2022',62,27);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',52,'Cat Treats','3/25/2023',22,28);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',76,'Poop bags','6/5/2022',44,29);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',76,'Poop Bag','6/5/2022',44,29);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Happy Pet',41,'Dog Food','5/25/2022',32,30);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',39,'Litter box','6/6/2022',5,31);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',54,'Leash','4/17/2023',69,32);
@@ -1356,12 +1356,12 @@ INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Wholesale Pet',84,'Litter box','10/21/2022',51,40);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Wholesale Pet',89,'Cat Food','10/26/2022',47,41);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('PetSmart',67,'Leash','1/18/2023',26,42);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',94,'Poop bags','11/19/2022',24,43);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',94,'Poop Bag','11/19/2022',24,43);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',54,'Cat Food','6/6/2022',70,44);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Wholesale Pet',74,'Cat Food','7/21/2022',9,45);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Wholesale Pet',59,'Poop bags','1/3/2023',10,46);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Wholesale Pet',59,'Poop Bag','1/3/2023',10,46);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',77,'Cat Treats','1/13/2023',50,47);
-INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',90,'Poop bags','10/4/2022',58,48);
+INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petco',90,'Poop Bag','10/4/2022',58,48);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',18,'Litter box','9/13/2022',6,49);
 INSERT INTO AnimalInventory(brand,quantity,item_category,date_received,operation_id,item_id) VALUES ('Petmate',41,'Dog Treats','7/21/2022',71,50);
 
