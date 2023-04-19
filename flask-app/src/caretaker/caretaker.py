@@ -8,8 +8,8 @@ caretaker = Blueprint('caretaker', __name__)
 @caretaker.route('/dog/<id>', methods=['GET'])
 def get_dog(id):
     cursor = db.get_db().cursor()
-    query = 'select * \
-            from Dog \
+    query = 'select dog_id \
+            from dog \
             where dogID = {0}'.format(id)
     cursor.execute(query)
     column_headers = [x[0] for x in cursor.description]
@@ -38,10 +38,10 @@ def get_cat(id):
 @caretaker.route('/needCare', methods=['GET'])
 def get_care():
     cursor = db.get_db().cursor()
-    query = 'select Dog.need_food, need_walk, need_clean, Cat.need_food, need_litter_cleaning \
-            from Dog natural join Cat \
-            where Cat.need_food = True OR Dog.need_food = True OR need_walk = True OR \
-                  need_clean = True OR need_litter_cleaning = True'
+    query = 'select dog.need_food, need_walk, need_clean, cat.need_food, need_liter_cleaning \
+            from dog natural join cat \
+            where cat.need_food = True OR dog.need_food = True OR need_walk = True OR \
+                  need_clean = True OR need_liter_cleaning = True'
     cursor.execute(query)
     column_headers = [x[0] for x in cursor.description]
     json_data = []
