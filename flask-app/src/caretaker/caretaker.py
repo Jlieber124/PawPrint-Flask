@@ -22,9 +22,8 @@ def get_dog(id):
 @caretaker.route('/cat/<id>', methods=['GET'])
 def get_cat(id):
     cursor = db.get_db().cursor()
-    query = 'select * \
-            from Cat \
-            where catID = {0}'.format(id)
+    query = 'select cat.catID \
+        from cat'.format(id)
     cursor.execute(query)
     column_headers = [x[0] for x in cursor.description]
     json_data = []
@@ -124,8 +123,8 @@ def update_litter(id):
 def adopt_dog(id):
     cursor = db.get_db().cursor()
     cursor.execute(
-        'delete from Dog \
-        where id = {0}'.format(id)
+        'DELETE FROM dog \
+        WHERE dog_id = {0}'.format(id)
         )
     db.get_db().commit()
     
@@ -136,7 +135,7 @@ def adopt_dog(id):
 def adopt_cat(id):
     cursor = db.get_db().cursor()
     cursor.execute(
-        'delete from Cat \
+        'delete from cat \
         where id = {0}'.format(id)
         )
     db.get_db().commit()
