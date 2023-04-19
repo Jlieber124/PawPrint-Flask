@@ -59,6 +59,24 @@ def get_item(id):
     
     return jsonify(json_data)
 
+    # Return all operation ID
+@operations.route('/getOpId', methods=['GET'])
+def get_operationId():
+    cursor = db.get_db().cursor()
+    cursor.execute(
+        'select distinct operation_id \
+        from OperationVolunteer'
+        )
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    
+    return jsonify(json_data)
+
+
+
 
 # update an item's quantity
 @operations.route('/inventory/<id>', methods=['PUT'])
