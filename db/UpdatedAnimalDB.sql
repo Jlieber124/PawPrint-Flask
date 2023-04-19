@@ -1,4 +1,4 @@
-
+#DROP DATABASE animalShelter;
 CREATE DATABASE IF NOT EXISTS animalShelter;
 
 grant all privileges on animalShelter.* to 'webapp'@'%';
