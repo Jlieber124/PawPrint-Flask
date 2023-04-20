@@ -18,6 +18,7 @@ def get_allDog():
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
+
 # get all cats
 @caretaker.route('/all_cat', methods=['GET'])
 def get_allCat():
@@ -31,6 +32,7 @@ def get_allCat():
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
+
 
 # get all of a particular dog's information
 @caretaker.route('/dog/<id>', methods=['GET'])
@@ -63,6 +65,7 @@ def get_cat(id):
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
+
 # get all dogs that need any kind of care
 @caretaker.route('/need_dogcare', methods=['GET'])
 def get_dogcare():
@@ -78,6 +81,7 @@ def get_dogcare():
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
+
 # get all cats that need any kind of care
 @caretaker.route('/need_catcare', methods=['GET'])
 def get_catcare():
@@ -92,6 +96,7 @@ def get_catcare():
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
+
 
 # update an dog's need food status
 @caretaker.route('/updateDog/<id>', methods=['PUT'])
@@ -128,6 +133,7 @@ def update_cat(id):
     db.get_db().commit()
     return "success"
 
+
 # Mark a dog as adopted
 @caretaker.route('/dog/<id>', methods=['DELETE'])
 def adopt_dog(id):
@@ -140,6 +146,7 @@ def adopt_dog(id):
     
     return "success"
 
+
 # Mark a cat as adopted
 @caretaker.route('/cat/<id>', methods=['DELETE'])
 def adopt_cat(id):
@@ -151,6 +158,7 @@ def adopt_cat(id):
     db.get_db().commit()
     
     return "success"
+
 
 # enter own information in to the database
 @caretaker.route('/add_caretaker', methods=['POST'])
@@ -167,7 +175,7 @@ def add_caretaker():
     
     the_query = "insert into CaretakerVolunteer (work_email, experience, first_name, last_name, phone_number, animal_specialty, coordinator_id, caretaker_id) "
     the_query += "values ('" + work_email + "', " + str(years_exp) + ", '" + f_name + "', '" + l_name + "', '" + phone_num + "', '" + animal_spec + "', " + str(coord_id) + ", " + str(caretaker_id) + ")"
-    # execute query
+
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
     db.get_db().commit()

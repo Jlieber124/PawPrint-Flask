@@ -20,6 +20,7 @@ def get_items():
     
     return jsonify(json_data)
 
+
 # Add a new item to the inventory
 @operations.route('/inventory', methods=['POST'])
 def add_item():
@@ -33,14 +34,14 @@ def add_item():
     op_id = the_data['operation_id']
     item_id = the_data['item_id']
     
-    # construct insert statement
     the_query = "insert into AnimalInventory (brand, quantity, item_category, date_received, operation_id, item_id) "
     the_query += "values ('" + brand + "', " + str(quantity) + ", '" + item_cat + "', '" + date_rec + "', " + str(op_id) + ", " + str(item_id) + ")"
-    # execute query
+
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
     db.get_db().commit()
     return "success"
+
 
 # Return the quantity of a specific item
 @operations.route('/inventory/<id>', methods=['GET'])
@@ -59,6 +60,22 @@ def get_item(id):
     
     return jsonify(json_data)
 
+
+# update an item's quantity
+@operations.route('/inventory/<id>', methods=['PUT'])
+def update_quantity(id):
+    the_data = request.json
+    quantity = the_data['quantity']
+    
+    the_query = "update AnimalInventory "
+    the_query += "set quantity = " + str(quantity)
+    the_query += " where item_id = {0}".format(id)
+    cursor = db.get_db().cursor()
+    cursor.execute(the_query)
+    db.get_db().commit()
+    return "success"
+
+
 # Return all operation IDs
 @operations.route('/getOpId', methods=['GET'])
 def get_operationId():
@@ -76,22 +93,6 @@ def get_operationId():
     return jsonify(json_data)
 
 
-
-
-# update an item's quantity
-@operations.route('/inventory/<id>', methods=['PUT'])
-def update_quantity(id):
-    the_data = request.json
-    quantity = the_data['quantity']
-    
-    the_query = "update AnimalInventory "
-    the_query += "set quantity = " + str(quantity)
-    the_query += " where item_id = {0}".format(id)
-    cursor = db.get_db().cursor()
-    cursor.execute(the_query)
-    db.get_db().commit()
-    return "success"
-
 # Mark an item as out of stock
 @operations.route('/inventory/<id>', methods=['DELETE'])
 def delete_item(id):
@@ -103,6 +104,7 @@ def delete_item(id):
     db.get_db().commit()
     
     return "success"
+
 
 # Get items that only have 3 or less left in stock
 @operations.route('/low_inventory', methods=['GET'])
@@ -121,9 +123,11 @@ def get_low_items():
     
     return jsonify(json_data)
 
+
 # Get a list of brands in stock for this item category
 @operations.route('/brand_categories/<item_cat>', methods=['GET'])
 def get_recent_items(item_cat):
+    # assign item_cat parameter to category
     if (item_cat == '1'):
         category = 'Cat Food'
     elif (item_cat == '2'):
@@ -157,6 +161,7 @@ def get_recent_items(item_cat):
         json_data.append(dict(zip(row_headers, row)))
     
     return jsonify(json_data)
+
 
 # Get number of items in stock for each category
 @operations.route('/per_category', methods=['GET'])
