@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
@@ -59,7 +59,7 @@ def get_item(id):
     
     return jsonify(json_data)
 
-    # Return all operation ID
+# Return all operation IDs
 @operations.route('/getOpId', methods=['GET'])
 def get_operationId():
     cursor = db.get_db().cursor()
@@ -144,12 +144,12 @@ def get_recent_items(item_cat):
         category = 'Poop Bag'
     
     cursor = db.get_db().cursor()
-    cursor.execute(
-        'select distinct brand, sum(quantity) as count \
+    the_query = 'select distinct brand, sum(quantity) as count \
         from AnimalInventory \
         where item_category = "' + category + '" \
         group by brand'
-        )
+    current_app.logger.info(the_query)
+    cursor.execute(the_query)
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()

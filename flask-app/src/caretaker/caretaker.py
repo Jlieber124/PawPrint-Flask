@@ -94,20 +94,6 @@ def get_catcare():
     return jsonify(json_data)
 
 # update an dog's need food status
-@caretaker.route('/need_dogfood/<id>', methods=['PUT'])
-def update_dogfood(id):
-    the_data = request.json
-    need_food = the_data['need_food']
-    
-    the_query = "update dog "
-    the_query += "set need_food = " + str(need_food)
-    the_query += " where dog_id = {0}".format(id)
-    cursor = db.get_db().cursor()
-    cursor.execute(the_query)
-    db.get_db().commit()
-    return "success"
-
-# update an dog's need food status
 @caretaker.route('/updateDog/<id>', methods=['PUT'])
 def update_dog(id):
     the_data = request.json
@@ -125,47 +111,6 @@ def update_dog(id):
     db.get_db().commit()
     return "success"
 
-# update an dog's need clean status
-@caretaker.route('/need_clean/<id>', methods=['PUT'])
-def update_clean(id):
-    the_data = request.json
-    need_clean = the_data['need_clean']
-    
-    the_query = "update dog "
-    the_query += "set need_clean = " + str(need_clean)
-    the_query += " where dog_id = {0}".format(id)
-    cursor = db.get_db().cursor()
-    cursor.execute(the_query)
-    db.get_db().commit()
-    return "success"
-
-# update an dog's need walk status
-@caretaker.route('/need_walk/<id>', methods=['PUT'])
-def update_walk(id):
-    the_data = request.json
-    need_walk = the_data['need_walk']
-    
-    the_query = "update dog "
-    the_query += "set need_walk = " + str(need_walk)
-    the_query += " where dog_id = {0}".format(id)
-    cursor = db.get_db().cursor()
-    cursor.execute(the_query)
-    db.get_db().commit()
-    return "success"
-
-# update an cat's need food status
-@caretaker.route('/need_catfood/<id>', methods=['PUT'])
-def update_catfood(id):
-    the_data = request.json
-    need_food = the_data['need_food']
-    
-    the_query = "update cat "
-    the_query += "set need_food = " + str(need_food)
-    the_query += " where catID = {0}".format(id)
-    cursor = db.get_db().cursor()
-    cursor.execute(the_query)
-    db.get_db().commit()
-    return "success"
 
 # update a cat's need status
 @caretaker.route('/updateCat/<id>', methods=['PUT'])
@@ -177,21 +122,6 @@ def update_cat(id):
     the_query = "update cat "
     the_query += "set need_litter_cleaning = " + str(need_litter)
     the_query += ", need_food = " + str(need_food)
-    the_query += " where catID = {0}".format(id)
-    cursor = db.get_db().cursor()
-    cursor.execute(the_query)
-    db.get_db().commit()
-    return "success"
-
-
-# update an cat's need food status
-@caretaker.route('/need_litter/<id>', methods=['PUT'])
-def update_litter(id):
-    the_data = request.json
-    need_litter = the_data['need_litter_cleaning']
-    
-    the_query = "update cat "
-    the_query += "set need_litter_cleaning = " + str(need_litter)
     the_query += " where catID = {0}".format(id)
     cursor = db.get_db().cursor()
     cursor.execute(the_query)
