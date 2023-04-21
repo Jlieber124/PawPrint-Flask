@@ -6,6 +6,9 @@ Project Description:  PawPrint is an easy to use app for animal shelters. Create
 
 Project Details: Uses App Smith user interface pages for the caretaker and operations volunteer. Python Flask is used to connect the user interface to the database. 
 
+Video:  https://youtu.be/mVL78g5UU9s 
+
+
 # MySQL + Flask Boilerplate Project
 
 This repo contains a boilerplate setup for spinning up 3 Docker containers: 
